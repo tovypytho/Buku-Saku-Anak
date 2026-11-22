@@ -467,6 +467,7 @@
     let scale = 0.35;
     let panX = 0;
     let panY = 0;
+    let sheetFrame = 0;
 
     // The Android integration can pass the fractional calendar age to this same projection.
     function projectAgeOnSheet(ageInMonths) {
@@ -507,13 +508,36 @@
     }
 
     function applySheetTransform() {
-      const layer = document.getElementById('sheetTransformLayer');
       const viewport = document.getElementById('sheetViewport');
-      if (!layer || !viewport) return;
-      layer.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
-      const badge = document.getElementById('ageLineBadgeTop');
-      badge.style.transform = `scale(${1 / scale}) translate(-50%, calc(-100% - 4px))`;
-      viewport.classList.toggle('is-zoomed', scale > fitScale + 0.02);
+      const width = viewport.clientWidth;
+      const height = viewport.clientHeight;
+      if (!width || !height || !imgNaturalW || !imgNaturalH) return;
+
+      if (scale <= fitScale) {
+        panX = (width - imgNaturalW * scale) / 2;
+        panY = (height - imgNaturalH * scale) / 2;
+      } else {
+        panX = constrainSheetPosition(panX, width, imgNaturalW * scale);
+        panY = constrainSheetPosition(panY, height, imgNaturalH * scale);
+      }
+      viewport.classList.toggle('is-zoomed', scale > fitScale);
+      if (sheetFrame) return;
+      sheetFrame = requestAnimationFrame(() => {
+        sheetFrame = 0;
+        document.getElementById('sheetTransformLayer').style.transform =
+          `translate(${panX}px, ${panY}px) scale(${scale})`;
+        document.getElementById('ageLineBadgeTop').style.transform =
+          `scale(${1 / scale}) translate(-50%, calc(-100% - 4px))`;
+      });
+    }
+
+    function setSheetZoom(start, nextScale, from, to = from) {
+      const limitedScale = Math.max(fitScale, Math.min(fitScale * 5, nextScale));
+      const next = anchorSheetZoom(start, limitedScale, from, to);
+      scale = next.scale;
+      panX = next.x;
+      panY = next.y;
+      applySheetTransform();
     }
 
     function fitSheetToScreen() {
@@ -524,8 +548,6 @@
       if (vw === 0 || vh === 0) return;
       fitScale = Math.min(vw / imgNaturalW, vh / imgNaturalH);
       scale = fitScale;
-      panX = (vw - imgNaturalW * scale) / 2;
-      panY = (vh - imgNaturalH * scale) / 2;
       applySheetTransform();
     }
 
@@ -558,7 +580,7 @@
       const preferredScale = item
         ? Math.min(fitScale * 5, (vw - 28) / (item.right - item.left))
         : Math.max(fitScale * 2.4, vw / (imgNaturalW * 0.42));
-      scale = Math.max(fitScale, preferredScale);
+      scale = Math.max(fitScale, Math.min(fitScale * 5, preferredScale));
       panX = vw / 2 - x * scale;
       panY = vh / 2 - y * scale;
       renderFocusedItem(item);
@@ -911,46 +933,81 @@
       renderMiniRulerTicks();
       img.src = window.DENVER_SHEET_DATA_URI;
 
-      let pointers = new Map();
-      let startDist = 0;
-      let startScale = scale;
-      let lastPt = null;
+      const touches = new Map();
+      let gesture = null;
 
-      viewport.addEventListener('pointerdown', (e) => {
-        pointers.set(e.pointerId, e);
-        if (pointers.size === 1 && scale > fitScale + 0.02) {
-          viewport.setPointerCapture(e.pointerId);
-          lastPt = { x: e.clientX, y: e.clientY };
-        } else if (pointers.size === 2) {
-          const pts = Array.from(pointers.values());
-          startDist = Math.hypot(pts[0].clientX - pts[1].clientX, pts[0].clientY - pts[1].clientY);
-          startScale = scale;
+      function pinchGeometry(first, second) {
+        const bounds = viewport.getBoundingClientRect();
+        return {
+          center: {
+            x: (first.clientX + second.clientX) / 2 - bounds.left,
+            y: (first.clientY + second.clientY) / 2 - bounds.top
+          },
+          distance: Math.hypot(first.clientX - second.clientX, first.clientY - second.clientY)
+        };
+      }
+
+      function beginTouchGesture() {
+        const [first, second] = touches.values();
+        gesture = null;
+        if (second) {
+          const { center, distance } = pinchGeometry(first, second);
+          if (distance > 0) gesture = { center, distance, start: { scale, x: panX, y: panY } };
+        } else if (first && scale > fitScale) {
+          gesture = { previous: first };
         }
-      });
+      }
 
-      viewport.addEventListener('pointermove', (e) => {
-        if (!pointers.has(e.pointerId)) return;
-        pointers.set(e.pointerId, e);
-        if (pointers.size === 1 && lastPt && scale > fitScale + 0.02) {
-          panX += e.clientX - lastPt.x;
-          panY += e.clientY - lastPt.y;
-          lastPt = { x: e.clientX, y: e.clientY };
-          applySheetTransform();
-        } else if (pointers.size === 2 && startDist > 0) {
-          const pts = Array.from(pointers.values());
-          const dist = Math.hypot(pts[0].clientX - pts[1].clientX, pts[0].clientY - pts[1].clientY);
-          scale = Math.min(fitScale * 5, Math.max(fitScale, startScale * (dist / startDist)));
+      viewport.addEventListener('touchstart', event => {
+        for (const touch of event.changedTouches) touches.set(touch.identifier, touch);
+        beginTouchGesture();
+      }, { passive: true });
+
+      viewport.addEventListener('touchmove', event => {
+        for (const touch of event.changedTouches) {
+          if (touches.has(touch.identifier)) touches.set(touch.identifier, touch);
+        }
+        if (!gesture || !event.cancelable || !imgNaturalW) return;
+        event.preventDefault();
+
+        const [first, second] = touches.values();
+        if (second) {
+          const { center, distance } = pinchGeometry(first, second);
+          setSheetZoom(gesture.start, gesture.start.scale * distance / gesture.distance, gesture.center, center);
+        } else if (first && gesture.previous) {
+          panX += first.clientX - gesture.previous.clientX;
+          panY += first.clientY - gesture.previous.clientY;
+          gesture.previous = first;
           applySheetTransform();
         }
-      });
+      }, { passive: false });
 
-      const endPtr = (e) => {
-        pointers.delete(e.pointerId);
-        if (pointers.size < 2) startDist = 0;
-        lastPt = null;
-      };
-      viewport.addEventListener('pointerup', endPtr);
-      viewport.addEventListener('pointercancel', endPtr);
+      function finishTouchGesture(event) {
+        for (const touch of event.changedTouches) touches.delete(touch.identifier);
+        beginTouchGesture();
+      }
+      viewport.addEventListener('touchend', finishTouchGesture, { passive: true });
+      viewport.addEventListener('touchcancel', finishTouchGesture, { passive: true });
+
+      let pointer = null;
+      viewport.addEventListener('pointerdown', event => {
+        if (event.pointerType === 'touch' || event.button !== 0 || scale <= fitScale) return;
+        pointer = event;
+        viewport.setPointerCapture(event.pointerId);
+      });
+      viewport.addEventListener('pointermove', event => {
+        if (pointer?.pointerId !== event.pointerId) return;
+        panX += event.clientX - pointer.clientX;
+        panY += event.clientY - pointer.clientY;
+        pointer = event;
+        applySheetTransform();
+      });
+      viewport.addEventListener('lostpointercapture', () => { pointer = null; });
+      new ResizeObserver(() => {
+        touches.clear();
+        gesture = null;
+        fitSheetToScreen();
+      }).observe(viewport);
     }
 
     function renderNutrition(age) {
@@ -1263,7 +1320,7 @@
         if (!imported) return;
         visitStore = imported.data;
         activateVisit(visitStore.visits.find(visit => visit.id === visitStore.selected) ?? null, false);
-        visitElement('modalAbout').classList.add('hidden');
+        visitElement('modalAbout').close();
         storageNotice(imported.addedVisits
           ? imported.addedVisits + ' kunjungan diimpor.'
           : 'Impor selesai. Tidak ada kunjungan baru.', 'Tutup', () => storageNotice(''));
@@ -1305,7 +1362,8 @@
       visitElement('visitFormStepLabel').textContent = showMeasurements ? '2 dari 2 · Pengukuran' : '1 dari 2 · Profil anak';
       visitElement('btnSaveAge').textContent = showMeasurements ? 'Simpan pemeriksaan' : 'Lanjut ke pengukuran';
       visitElement('errorVisitMeasure').classList.add('hidden');
-      visitElement(showMeasurements ? 'visitWeight' : 'inputBirthDate').focus();
+      visitElement('ageForm').scrollTop = 0;
+      if (visitElement('modalAgeInput').open) visitElement('ageModalTitle').focus({ preventScroll: true });
     }
 
     function openAgeModal(mode = activeVisit ? 'edit' : 'child') {
@@ -1327,8 +1385,8 @@
       visitElement('visitOedema').checked = visit?.measures.oedema === true;
       clearAgeErrors();
       visitElement('errorVisitSex').classList.add('hidden');
-      visitElement('modalAgeInput').classList.remove('hidden');
       showVisitStep(false);
+      openAppDialog(visitElement('modalAgeInput'));
     }
 
     function visitProfileInput() {
@@ -1663,7 +1721,7 @@
         };
         visitStore.visits.push(visit);
       }
-      visitElement('modalAgeInput').classList.add('hidden');
+      visitElement('modalAgeInput').close();
       activateVisit(visit);
     }
 
@@ -1692,7 +1750,7 @@
       const visit = visitFormMode === 'edit' ? activeVisit : { id: newVisitId(), childId: child.id };
       Object.assign(visit, { examDate, measures });
       if (visitFormMode !== 'edit') visitStore.visits.push(visit);
-      visitElement('modalAgeInput').classList.add('hidden');
+      visitElement('modalAgeInput').close();
       activateVisit(visit);
       switchTab('pertumbuhan');
     }
@@ -1784,7 +1842,7 @@
             zoom.addEventListener('click', () => {
               enlargedImage.src = image.src;
               enlargedImage.alt = image.alt;
-              imageDialog.showModal();
+              openAppDialog(imageDialog);
             });
             figure.append(zoom);
 
@@ -2501,7 +2559,10 @@
       visitElement('referralStatus').textContent = '';
       visitElement('referralRecords').classList.add('hidden');
       form.classList.remove('hidden');
-      if (visitElement('referralDialog').open) visitElement('referralFindings').focus();
+      if (visitElement('referralDialog').open) {
+        form.closest('.app-dialog-body').scrollTop = 0;
+        visitElement('referralClose').focus({ preventScroll: true });
+      }
     }
 
     function openReferralDialog(visit, preset) {
@@ -2511,8 +2572,7 @@
       visitElement('referralVisitLabel').textContent = activeChild.name + ' · ' + formatDateId(visit.examDate);
       if (preset) showReferralForm(preset);
       else showReferralList();
-      dialog.showModal();
-      if (preset) visitElement('referralFindings').focus();
+      openAppDialog(dialog);
     }
 
     let referralSaving = false;
@@ -2576,7 +2636,6 @@
         if (visit) openReferralDialog(visit, { findings: guideContext.includeFindings ? guideContext.findings : '' });
       });
       visitElement('btnOpenReferralRecords').addEventListener('click', () => openReferralDialog(activeVisit));
-      visitElement('referralClose').addEventListener('click', () => visitElement('referralDialog').close());
       visitElement('referralToList').addEventListener('click', showReferralList);
       const form = visitElement('referralForm');
       form.addEventListener('input', event => {
@@ -2588,6 +2647,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+      initAppDialogs();
       initSheetImageAndGestures();
       initGuide();
       restoreKpsp = initKpsp();
@@ -2606,7 +2666,6 @@
       visitElement('btnHdrChangeAge').addEventListener('click', () => openAgeModal());
       visitElement('btnHeaderSources').addEventListener('click', openSources);
       document.querySelectorAll('.trigger-age-modal').forEach(b => b.addEventListener('click', () => openAgeModal()));
-      visitElement('btnCloseAgeModal').addEventListener('click', () => visitElement('modalAgeInput').classList.add('hidden'));
       visitElement('btnVisitProfileBack').addEventListener('click', () => showVisitStep(false));
       visitElement('btnContinueKpsp').addEventListener('click', () => {
         switchTab('perkembangan');
@@ -2643,32 +2702,13 @@
       });
 
       // Kontrol Lembar Denver II
-      document.getElementById('btnZoomIn').addEventListener('click', () => {
+      function zoomSheetBy(factor) {
         const viewport = document.getElementById('sheetViewport');
-        const oldScale = scale;
-        scale = Math.min(fitScale * 5, scale * 1.35);
-        const cx = viewport.clientWidth / 2;
-        const cy = viewport.clientHeight / 2;
-        panX = cx - (cx - panX) * (scale / oldScale);
-        panY = cy - (cy - panY) * (scale / oldScale);
-        applySheetTransform();
-      });
-
-      document.getElementById('btnZoomOut').addEventListener('click', () => {
-        const newScale = Math.max(fitScale, scale / 1.35);
-        if (newScale <= fitScale + 0.01) {
-          fitSheetToScreen();
-        } else {
-          const viewport = document.getElementById('sheetViewport');
-          const oldScale = scale;
-          scale = newScale;
-          const cx = viewport.clientWidth / 2;
-          const cy = viewport.clientHeight / 2;
-          panX = cx - (cx - panX) * (scale / oldScale);
-          panY = cy - (cy - panY) * (scale / oldScale);
-          applySheetTransform();
-        }
-      });
+        const center = { x: viewport.clientWidth / 2, y: viewport.clientHeight / 2 };
+        setSheetZoom({ scale, x: panX, y: panY }, scale * factor, center);
+      }
+      document.getElementById('btnZoomIn').addEventListener('click', () => zoomSheetBy(1.35));
+      document.getElementById('btnZoomOut').addEventListener('click', () => zoomSheetBy(1 / 1.35));
 
       document.getElementById('btnFitSheet').addEventListener('click', () => {
         clearSheetHighlight();
@@ -2740,12 +2780,10 @@
       });
 
       // Modals lainnya
-      document.getElementById('btnOpenVisitPrep').addEventListener('click', () => document.getElementById('modalVisitPrep').classList.remove('hidden'));
-      document.getElementById('btnCloseVisitPrep').addEventListener('click', () => document.getElementById('modalVisitPrep').classList.add('hidden'));
+      document.getElementById('btnOpenVisitPrep').addEventListener('click', () => openAppDialog(visitElement('modalVisitPrep')));
       document.querySelectorAll('.visit-check').forEach(c => c.addEventListener('change', updateVisitPrepSummary));
 
-      document.getElementById('btnOpenStoryRoom').addEventListener('click', () => document.getElementById('modalStoryRoom').classList.remove('hidden'));
-      document.getElementById('btnCloseStoryRoom').addEventListener('click', () => document.getElementById('modalStoryRoom').classList.add('hidden'));
+      document.getElementById('btnOpenStoryRoom').addEventListener('click', () => openAppDialog(visitElement('modalStoryRoom')));
       document.querySelectorAll('.story-topic-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           const topic = STORY_TOPICS[btn.dataset.topic];
@@ -2761,17 +2799,16 @@
 
       function openSources() {
         document.getElementById('confirmResetBox').classList.add('hidden');
-        document.getElementById('modalAbout').classList.remove('hidden');
+        openAppDialog(visitElement('modalAbout'));
       }
       document.getElementById('btnOpenAbout').addEventListener('click', openSources);
-      document.getElementById('btnCloseAbout').addEventListener('click', () => document.getElementById('modalAbout').classList.add('hidden'));
       document.getElementById('btnRequestResetSession').addEventListener('click', () => document.getElementById('confirmResetBox').classList.remove('hidden'));
       document.getElementById('btnCancelReset').addEventListener('click', () => document.getElementById('confirmResetBox').classList.add('hidden'));
       document.getElementById('btnConfirmReset').addEventListener('click', () => {
         visitStore = { version: 1, selected: null, children: [], visits: [] };
         document.querySelectorAll('.visit-check').forEach(c => { c.checked = false; });
         document.getElementById('confirmResetBox').classList.add('hidden');
-        document.getElementById('modalAbout').classList.add('hidden');
+        visitElement('modalAbout').close();
         activateVisit(null);
         switchTab('beranda');
       });
@@ -2784,12 +2821,6 @@
       const dialog = document.querySelector('dialog[open]');
       if (dialog) {
         dialog.close();
-        return true;
-      }
-      const openOverlay = [...document.querySelectorAll('#appRoot > [role="dialog"]')]
-        .find(element => !element.classList.contains('hidden'));
-      if (openOverlay) {
-        openOverlay.classList.add('hidden');
         return true;
       }
       if (guideContext && !visitElement('tab-panduan').classList.contains('hidden')) {

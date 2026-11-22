@@ -17,6 +17,7 @@
 
     html, body {
       margin: 0;
+      min-height: 100%;
       background: #e9e0d7;
       color: var(--ink);
       font-family: var(--body-type);
@@ -28,8 +29,7 @@
     .app-shell {
       width: 100%;
       max-width: var(--shell-width);
-      min-height: 100vh;
-      min-height: 100dvh;
+      min-height: var(--app-viewport-height, 100%);
       margin: 0 auto;
       background: var(--paper);
       display: flex;
@@ -338,10 +338,44 @@
       outline-offset: 2px;
     }
 
-    #appRoot > [role='dialog'] > div {
-      max-height: calc(100dvh - 1rem);
-      overflow-y: auto;
+    html.app-dialog-open { overflow: hidden; }
+
+    .app-dialog {
+      --dialog-width: 430px;
+      position: fixed;
+      inset: var(--dialog-center-y, 50%) auto auto var(--dialog-center-x, 50%);
+      transform: translate(-50%, -50%);
+      width: min(var(--dialog-width), var(--dialog-max-width, calc(100% - 2rem)));
+      max-height: var(--dialog-max-height, calc(100% - 2rem));
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid var(--rule);
+      border-radius: .65rem;
+      background: var(--surface);
+      color: var(--ink);
     }
+
+    .app-dialog-wide { --dialog-width: var(--shell-width); }
+    .app-dialog[open] { display: flex; flex-direction: column; }
+    .app-dialog::backdrop { background: rgba(35, 21, 31, .55); }
+    .app-dialog-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .5rem;
+      flex-shrink: 0;
+      padding: .5rem 1rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .app-dialog-header [data-dialog-close] { flex-shrink: 0; }
+    .app-dialog-body {
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      padding: .85rem 1rem 1rem;
+    }
+    #kpspEnlargedImage { max-height: calc(var(--dialog-max-height, 480px) - 5rem); }
 
     @media (max-width: 365px) {
       .brand-row, .section-masthead { gap: 0.5rem; }
@@ -377,7 +411,6 @@
     .growth-key .growth-band-outer { background: #f2d064; }
     .growth-series { fill: none; stroke: var(--plum); stroke-width: 1.5; stroke-dasharray: 4 3; }
     .growth-dot { fill: var(--accent); stroke: var(--surface); stroke-width: 1.4; cursor: pointer; }
-    #appRoot > #modalAgeInput > div { max-height: 100dvh; }
     .service-switcher button[aria-pressed='true'] { background: var(--surface); box-shadow: inset 0 -2px var(--accent); }
     .app-nav [role='tablist'] { display: grid; grid-template-columns: 1fr 1.25fr 1.35fr .85fr .9fr; }
     .nav-tab-btn { font-size: clamp(.62rem, 2.9vw, .78rem); }
@@ -421,13 +454,10 @@
     .guide-sources li + li { margin-top: .45rem; }
     .guide-sources a { color: var(--plum); text-decoration: underline; }
     .guide-result-context { margin-bottom: .85rem; padding: .65rem .75rem; background: var(--soft); border-radius: .4rem; font-size: .875rem; white-space: pre-wrap; overflow-wrap: anywhere; }
-    .referral-dialog { width: min(calc(100% - 1.5rem), var(--shell-width)); max-height: calc(100dvh - 1.5rem); margin: auto; padding: 1rem; overflow: auto; border: 1px solid var(--rule); border-radius: .65rem; background: var(--surface); color: var(--ink); }
-    .referral-dialog::backdrop { background: rgba(35, 21, 31, .55); }
-    .referral-header { display: flex; justify-content: space-between; align-items: start; gap: .5rem; border-bottom: 1px solid var(--rule); padding-bottom: .7rem; }
-    .referral-form { display: grid; gap: .8rem; padding-top: .85rem; }
+    .referral-form { display: grid; gap: .8rem; }
     .referral-form label span { display: inline; color: var(--muted); font-weight: 400; }
     .referral-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; }
-    #referralRecords { display: grid; gap: .6rem; padding-top: .85rem; }
+    #referralRecords { display: grid; gap: .6rem; }
     .guide-library.hidden, .guide-article.hidden, .guide-primary.hidden, .referral-form.hidden, #referralRecords.hidden { display: none; }
     .referral-print { display: none; }
     @page { size: A4; margin: 17mm; }

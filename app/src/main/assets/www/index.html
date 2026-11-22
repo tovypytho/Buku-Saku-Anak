@@ -286,14 +286,16 @@
               </div>
             </section>
 
-            <dialog id="kpspImageDialog" aria-labelledby="kpspImageDialogTitle" class="w-[calc(100%-2rem)] max-w-xl max-h-[90dvh] overflow-auto m-auto rounded-lg border border-divider bg-surface text-ink p-4 backdrop:bg-ink/50">
-              <div class="flex items-center justify-between gap-2 mb-2">
+            <dialog id="kpspImageDialog" aria-labelledby="kpspImageDialogTitle" class="app-dialog app-dialog-wide">
+              <header class="app-dialog-header">
                 <h2 id="kpspImageDialogTitle" class="text-sm font-semibold">Ilustrasi soal</h2>
                 <form method="dialog">
-                  <button type="submit" class="min-h-11 px-3 rounded-md bg-soft text-primary text-sm font-semibold">Tutup</button>
+                  <button data-dialog-close type="submit" class="header-action">Tutup</button>
                 </form>
+              </header>
+              <div class="app-dialog-body">
+                <img id="kpspEnlargedImage" class="mx-auto max-w-full object-contain" alt="">
               </div>
-              <img id="kpspEnlargedImage" class="mx-auto max-h-[67dvh] max-w-full object-contain" alt="">
             </dialog>
 
             <template id="kpspQuestionTemplate">
@@ -389,7 +391,7 @@
               <span class="pointer-events-none absolute bottom-1.5 right-1.5 w-2.5 h-2.5 border-b border-r border-primary/50 z-20" aria-hidden="true"></span>
 
               <div id="sheetViewport" class="relative w-full h-[460px] overflow-hidden">
-                <div id="sheetTransformLayer" class="absolute top-0 left-0 origin-top-left will-change-transform">
+                <div id="sheetTransformLayer" class="absolute top-0 left-0 origin-top-left">
                   <img id="denverSheetImg" alt="Lembar Denver II berbahasa Indonesia, lampiran UMS" width="2905" height="4096" draggable="false" style="display:block;width:100%;max-width:none;height:auto;">
                   <svg id="ageLineOverlay" viewBox="0 0 2905 4096" class="hidden" aria-hidden="true"
                     style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;">
@@ -821,13 +823,14 @@
       </div>
     </nav>
 
-    <dialog id="referralDialog" class="referral-dialog" aria-labelledby="referralTitle">
-      <header class="referral-header">
+    <dialog id="referralDialog" class="app-dialog app-dialog-wide" aria-labelledby="referralTitle">
+      <header class="app-dialog-header">
         <div><h2 id="referralTitle" class="home-section-title !mb-0">Ringkasan serah terima</h2><p id="referralVisitLabel" class="text-sm text-muted"></p></div>
-        <button id="referralClose" class="header-action" type="button">Tutup</button>
+        <button id="referralClose" data-dialog-close class="header-action" type="button">Tutup</button>
       </header>
-      <div id="referralRecords"></div>
-      <form id="referralForm" class="hidden referral-form">
+      <div class="app-dialog-body">
+        <div id="referralRecords"></div>
+        <form id="referralForm" class="hidden referral-form">
         <label for="referralFindings">Temuan yang perlu disampaikan
           <textarea id="referralFindings" name="findings" rows="3" maxlength="1800" required></textarea>
         </label>
@@ -861,17 +864,17 @@
           <button class="guide-secondary" type="submit" value="save">Simpan</button>
           <button class="guide-primary" type="submit" value="print">Simpan &amp; cetak</button>
         </div>
-      </form>
+        </form>
+      </div>
     </dialog>
 
     <!-- ================= DIALOG USIA ANAK ================= -->
-    <div id="modalAgeInput" role="dialog" aria-modal="true" aria-labelledby="ageModalTitle" class="fixed inset-0 bg-ink/40 z-50 flex justify-center hidden">
-      <div class="bg-surface w-full max-w-[544px] h-full p-5 sm:p-7">
-        <div class="flex items-center justify-between gap-3 pb-4 border-b border-divider">
-          <div><h2 id="ageModalTitle" class="home-section-title !mb-0">Mulai pemeriksaan</h2><p id="visitFormStepLabel" class="mt-1 text-xs text-muted"></p></div>
-          <button type="button" id="btnCloseAgeModal" class="header-action">Tutup</button>
-        </div>
-        <form id="ageForm" novalidate class="space-y-4 pt-4">
+    <dialog id="modalAgeInput" class="app-dialog app-dialog-wide" aria-labelledby="ageModalTitle">
+        <header class="app-dialog-header">
+          <div><h2 id="ageModalTitle" tabindex="-1" class="home-section-title !mb-0">Mulai pemeriksaan</h2><p id="visitFormStepLabel" class="mt-1 text-xs text-muted"></p></div>
+          <button type="button" id="btnCloseAgeModal" data-dialog-close class="header-action">Tutup</button>
+        </header>
+        <form id="ageForm" novalidate class="app-dialog-body space-y-4">
           <div id="visitProfileFields" class="space-y-4">
             <div>
               <label for="visitChildLabel" class="block text-sm font-semibold mb-1">Kode anak <span class="font-normal text-muted">(opsional)</span></label>
@@ -920,16 +923,15 @@
             <button type="button" id="btnApplyDemoNaraModal" class="min-h-11 text-primary hover:bg-soft text-sm font-semibold rounded-md px-4 py-2">Coba profil Nara</button>
           </div>
         </form>
-      </div>
-    </div>
+    </dialog>
 
     <!-- ================= DIALOG SIAPKAN KUNJUNGAN ================= -->
-    <div id="modalVisitPrep" role="dialog" aria-modal="true" aria-labelledby="visitPrepTitle" class="fixed inset-0 bg-ink/40 z-50 flex items-end sm:items-center justify-center hidden">
-      <div class="bg-surface w-full max-w-[430px] rounded-t-xl sm:rounded-xl border border-divider p-5 space-y-4">
-        <div class="flex items-center justify-between border-b border-divider pb-3">
+    <dialog id="modalVisitPrep" class="app-dialog" aria-labelledby="visitPrepTitle">
+        <header class="app-dialog-header">
           <h2 id="visitPrepTitle" class="text-lg font-semibold text-ink">Siapkan kunjungan</h2>
-          <button type="button" id="btnCloseVisitPrep" class="min-h-11 px-3 text-sm font-semibold text-muted hover:text-ink rounded-lg">Tutup</button>
-        </div>
+          <button type="button" id="btnCloseVisitPrep" data-dialog-close class="header-action">Tutup</button>
+        </header>
+      <div class="app-dialog-body space-y-4">
         <p class="text-sm text-muted">Ceklis persiapan ini tersimpan sementara selama sesi berlangsung.</p>
         <div class="divide-y divide-divider border border-divider rounded-lg">
           <label class="flex items-center gap-3 p-3.5 min-h-12 cursor-pointer">
@@ -946,18 +948,18 @@
           </label>
         </div>
       </div>
-    </div>
+    </dialog>
 
     <!-- ================= DIALOG RUANG CERITA ================= -->
-    <div id="modalStoryRoom" role="dialog" aria-modal="true" aria-labelledby="storyRoomTitle" class="fixed inset-0 bg-ink/40 z-50 flex items-end sm:items-center justify-center hidden">
-      <div class="bg-surface w-full max-w-[430px] rounded-t-xl sm:rounded-xl border border-divider p-5 space-y-4">
-        <div class="flex items-center justify-between border-b border-divider pb-3">
+    <dialog id="modalStoryRoom" class="app-dialog" aria-labelledby="storyRoomTitle">
+        <header class="app-dialog-header">
           <div>
             <h2 id="storyRoomTitle" class="text-lg font-semibold text-ink">Ruang Cerita</h2>
             <p class="text-xs text-muted">Pendampingan pengasuh</p>
           </div>
-          <button type="button" id="btnCloseStoryRoom" class="min-h-11 px-3 text-sm font-semibold text-muted hover:text-ink rounded-lg">Tutup</button>
-        </div>
+          <button type="button" id="btnCloseStoryRoom" data-dialog-close class="header-action">Tutup</button>
+        </header>
+      <div class="app-dialog-body space-y-4">
         <div class="grid grid-cols-3 gap-2 text-xs">
           <button type="button" class="story-topic-btn min-h-11 px-2 rounded-lg border border-primary bg-soft text-primary font-semibold" data-topic="berat">Hari terasa berat</button>
           <button type="button" class="story-topic-btn min-h-11 px-2 rounded-lg border border-divider bg-surface text-muted font-semibold" data-topic="capek">Aku capek</button>
@@ -970,15 +972,15 @@
         </div>
         <p class="text-xs text-muted">Catatan di sesi ini bersifat pribadi dan tidak dikirim ke server.</p>
       </div>
-    </div>
+    </dialog>
 
     <!-- ================= DIALOG TENTANG & SUMBER ================= -->
-    <div id="modalAbout" role="dialog" aria-modal="true" aria-labelledby="aboutTitle" class="fixed inset-0 bg-ink/40 z-50 flex items-end sm:items-center justify-center hidden">
-      <div class="bg-surface w-full max-w-[430px] rounded-t-xl sm:rounded-xl border border-divider p-5 space-y-4">
-        <div class="flex items-center justify-between border-b border-divider pb-3">
+    <dialog id="modalAbout" class="app-dialog" aria-labelledby="aboutTitle">
+        <header class="app-dialog-header">
           <h2 id="aboutTitle" class="text-lg font-semibold text-ink">Tentang &amp; sumber</h2>
-          <button type="button" id="btnCloseAbout" class="min-h-11 px-3 text-sm font-semibold text-muted hover:text-ink rounded-lg">Tutup</button>
-        </div>
+          <button type="button" id="btnCloseAbout" data-dialog-close class="header-action">Tutup</button>
+        </header>
+      <div class="app-dialog-body space-y-4">
         <div class="space-y-2 text-sm text-muted">
           <p class="text-ink font-semibold">Untuk perawat dan bidan Posyandu</p>
           <p>Grafik Denver II memakai pemetaan sebagian. Rekap Denver II menggunakan temuan dari lembar resmi.</p>
@@ -1007,7 +1009,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </dialog>
 
   </div>
 
@@ -1017,6 +1019,8 @@
 
   <script src="domain.js"></script>
   <script src="native-store.js"></script>
+  <script src="dialogs.js"></script>
+  <script src="sheet-geometry.js"></script>
   <script src="app.js"></script>
 
 
