@@ -1,0 +1,25 @@
+{
+  "format": "buku-saku-anak.html",
+  "version": 1,
+  "data": {
+    "version": 1,
+    "selected": "sample-visit-a",
+    "children": [
+      {"id":"sample-child-a","name":"DEMO-A","birthDate":"2025-12-01","sex":"f","isDemo":true,"vaccines":{"bcg":"2026-01-03"}},
+      {"id":"sample-child-b","name":"DEMO-B","birthDate":"2025-05-01","sex":"m","isDemo":true}
+    ],
+    "visits": [
+      {
+        "id":"sample-visit-a","childId":"sample-child-a","examDate":"2026-09-01",
+        "measures":{"weight":8.4,"height":70.5,"head":44.1,"arm":14.2,"position":"length","oedema":false},
+        "kpsp":{"stage":"form","age":9,"answers":[[9,{"kpsp-1":"ya","kpsp-2":"tidak"}]]},
+        "routines":[{"time":"08:00","text":"Makan pagi"}],
+        "referrals":[{"id":"sample-referral-a","findings":"Temuan simulasi.","reason":"Evaluasi lanjut.","urgency":"Terjadwal","actionTaken":"","destination":"Puskesmas Contoh","unit":"Poli Anak","followUp":""}]
+      },
+      {
+        "id":"sample-visit-b","childId":"sample-child-b","examDate":"2026-11-01",
+        "measures":{"weight":11,"height":81,"head":null,"arm":null,"position":"length","oedema":false}
+      }
+    ]
+  }
+}

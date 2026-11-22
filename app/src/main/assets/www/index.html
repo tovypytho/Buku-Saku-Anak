@@ -1,0 +1,1023 @@
+<!DOCTYPE html><html lang="id" class="light"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <title>Buku Saku Anak — Terpadu Denver II</title>
+  
+  <link rel="stylesheet" href="style-1.css">
+  <script src="vendor/tailwind.js"></script>
+  <script src="denver-image.js"></script>
+  <script src="theme.js"></script>
+  <link rel="stylesheet" href="style-2.css">
+  <link rel="stylesheet" href="style-3.css">
+</head>
+<body class="bg-paper text-ink selection:bg-soft selection:text-ink">
+  <svg class="icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <symbol id="mark-book" viewBox="0 0 24 24">
+      <path d="M12 20c-2.5-2-5.5-2.8-9-2.4V7.1c3.4-.4 6.4.5 9 2.5 2.6-2 5.6-2.9 9-2.5v10.5c-3.5-.4-6.5.4-9 2.4Zm0 0V9.6"></path>
+      <path d="M7 11.6c1 .2 1.8.5 2.5.9M14.8 12.7l2-1.4 1.7.2"></path>
+      <circle cx="12" cy="4.8" r="1.6" fill="currentColor" stroke="none"></circle>
+    </symbol>
+    <symbol id="icon-beranda" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7M5.5 9v11h13V9M10 20v-6h4v6"></path></symbol>
+    <symbol id="icon-perkembangan" viewBox="0 0 24 24"><path d="M4 4v16h16M7.5 15.5l4-4 3.4 1.4 4.1-5.7M15.5 7.2H19v3.5"></path></symbol>
+    <symbol id="icon-makan" viewBox="0 0 24 24"><path d="M3 11h18a7.8 7.8 0 0 1-5.9 7.5H8.9A7.8 7.8 0 0 1 3 11Zm5.8 9.5h6.4M11 4c-1.2 1.4 1.2 2.3 0 3.7M15.3 4c-1.2 1.4 1.2 2.3 0 3.7"></path></symbol>
+    <symbol id="icon-imunisasi" viewBox="0 0 24 24"><path d="M12 3 20 6v5.7c0 4.3-3.2 7.3-8 9.2-4.8-1.9-8-4.9-8-9.2V6l8-3Z"></path><path d="m8.7 11.8 2.1 2.1 4.5-4.3"></path></symbol>
+    <symbol id="icon-panduan" viewBox="0 0 24 24"><path d="M12 7c-2-2-5-2.8-9-2v14c4-.8 7 0 9 2 2-2 5-2.8 9-2V5c-4-.8-7 0-9 2Zm0 0v14M6 9h3m6 0h3m-12 4h3m6 0h3"></path></symbol>
+    <symbol id="icon-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"></path></symbol>
+  </svg>
+  <div class="app-shell" id="appRoot">
+    <div id="visitStorageWarning" class="storage-warning hidden rounded-md border border-divider bg-surface p-3 text-sm text-ink">
+      <p id="storageMessage" role="status"></p>
+      <button id="storageRetry" class="hidden guide-link" type="button"></button>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 pb-24" id="mainContentArea">
+
+      <!-- ================= TAB 1: BERANDA ================= -->
+      <section id="tab-beranda" aria-label="Beranda">
+        <header class="brand-header">
+          <div class="brand-row">
+            <div class="brand-identity">
+              <div class="brand-mark">
+                <svg class="ui-icon" aria-hidden="true"><use href="#mark-book"></use></svg>
+              </div>
+              <div>
+                <h1 class="brand-title">Buku Saku Anak</h1>
+                <p class="brand-subtitle">Panduan kunjungan Posyandu</p>
+              </div>
+            </div>
+            <button type="button" id="btnHeaderSources" class="header-action">Sumber</button>
+          </div>
+        </header>
+
+        <div class="home-body">
+          <div id="homeAgeArea" class="profile-cover">
+            <div id="ageEmptyState">
+              <div class="profile-intro">
+                <div>
+                  <h2 class="profile-cover-title">Mulai pemeriksaan</h2>
+                  <p class="profile-cover-copy mt-2">Isi profil anak dan catat hasil ukur untuk satu kunjungan.</p>
+                </div>
+                <svg class="cover-art" viewBox="0 0 112 112" fill="none" aria-hidden="true">
+                  <path d="M26 24h54a5 5 0 0 1 5 5v58H26a7 7 0 0 1-7-7V31a7 7 0 0 1 7-7Z" fill="#f6e4d8" stroke="#f4bea2" stroke-width="1.5" transform="rotate(-9 52 55)"></path>
+                  <path d="M91 17H39a7 7 0 0 0-7 7v52a7 7 0 0 0 7 7h52V17Z" fill="#f4bea2"></path>
+                  <path d="M40 17v66m4-7h47m-44-8h33V38M51 62l8-9 6 2 10-11m-6 0h6v6" stroke="#563650" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M97 24v52m0-48h-3m3 9h-3m3 9h-3m3 9h-3m3 9h-3m3 9h-3" stroke="#ecd4e2" stroke-width="1.2" stroke-linecap="round"></path>
+                  <circle cx="81" cy="30" r="4" fill="#a14732"></circle>
+                </svg>
+              </div>
+              <div class="profile-actions">
+                <button id="btnOpenAgeEmpty" type="button" class="cover-button cover-button-primary">Mulai pemeriksaan</button>
+                <button id="btnTryDemoNara" type="button" class="cover-button">Coba profil Nara</button>
+              </div>
+            </div>
+
+            <div id="ageActiveState" class="hidden">
+              <div class="profile-active-heading">
+                <h2 class="profile-cover-title min-w-0" id="activeProfileSummary"></h2>
+                <button id="btnHdrChangeAge" type="button" class="cover-button shrink-0">Ubah data</button>
+              </div>
+              <p class="profile-cover-copy mt-1.5" id="activeProfileMeta"></p>
+              <div class="mt-4 flex flex-wrap gap-2 text-sm" id="homeMeasureSummary"></div>
+              <div class="profile-actions">
+                <button type="button" class="cover-button cover-button-primary nav-shortcut-btn" data-target-tab="pertumbuhan">Lihat pertumbuhan</button>
+                <button type="button" id="btnContinueKpsp" class="cover-button">Buka KPSP</button>
+                <button type="button" id="btnOpenReferralRecords" class="hidden cover-button">Ringkasan serah terima</button>
+                <button type="button" id="btnNewVisit" class="cover-button">Kunjungan baru</button>
+              </div>
+            </div>
+          </div>
+
+          <section class="home-section" id="homeVisitHistory" aria-labelledby="homeHistoryTitle">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <h2 id="homeHistoryTitle" class="home-section-title !mb-0">Kunjungan tersimpan</h2>
+              <button type="button" id="btnNewChild" class="header-action">Anak baru</button>
+            </div>
+            <div id="homeVisitList" class="home-list"></div>
+          </section>
+
+          <section class="home-section" aria-labelledby="homeServicesTitle">
+            <h2 id="homeServicesTitle" class="home-section-title">Layanan anak</h2>
+            <div class="home-list">
+              <button type="button" class="nav-shortcut-btn home-shortcut" data-target-tab="perkembangan">
+                <svg class="ui-icon shortcut-icon" aria-hidden="true"><use href="#icon-perkembangan"></use></svg>
+                <span class="shortcut-text"><span class="shortcut-title">Perkembangan</span><span class="shortcut-description">Peta stimulasi, KPSP, dan Denver II</span></span>
+                <svg class="ui-icon shortcut-arrow" aria-hidden="true"><use href="#icon-chevron"></use></svg>
+              </button>
+              <button type="button" class="nav-shortcut-btn home-shortcut" data-target-tab="makan">
+                <svg class="ui-icon shortcut-icon" aria-hidden="true"><use href="#icon-makan"></use></svg>
+                <span class="shortcut-text"><span class="shortcut-title">Gizi &amp; pemberian makan</span><span class="shortcut-description">Panduan usia, menu, dan rutinitas</span></span>
+                <svg class="ui-icon shortcut-arrow" aria-hidden="true"><use href="#icon-chevron"></use></svg>
+              </button>
+              <button type="button" class="nav-shortcut-btn home-shortcut" data-target-tab="imunisasi">
+                <svg class="ui-icon shortcut-icon" aria-hidden="true"><use href="#icon-imunisasi"></use></svg>
+                <span class="shortcut-text"><span class="shortcut-title">Imunisasi</span><span class="shortcut-description">Jadwal usia dan catatan per dosis</span></span>
+                <svg class="ui-icon shortcut-arrow" aria-hidden="true"><use href="#icon-chevron"></use></svg>
+              </button>
+            </div>
+          </section>
+
+          <section class="home-section" aria-labelledby="homeVisitTitle">
+            <h2 id="homeVisitTitle" class="home-section-title">Persiapan layanan</h2>
+            <div class="home-list">
+              <button type="button" id="btnOpenVisitPrep" class="home-shortcut">
+                <svg class="ui-icon shortcut-icon" aria-hidden="true" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"></rect><path d="M9 4v4h6V4m-6 10 2 2 4-4"></path></svg>
+                <span class="shortcut-text"><span class="shortcut-title">Siapkan kunjungan</span><span class="shortcut-description" id="visitPrepSummary"></span></span>
+                <span class="flex items-center gap-1.5 shrink-0">
+                  <svg class="w-6 h-6 -rotate-90" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9" fill="none" stroke="var(--rule)" stroke-width="2.5"></circle>
+                    <circle id="visitProgressRing" cx="12" cy="12" r="9" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="56.5" stroke-dashoffset="56.5" stroke-linecap="round"></circle>
+                  </svg>
+                  <span class="font-mono text-xs text-muted" id="visitProgressText">0/3</span>
+                </span>
+              </button>
+
+              <button type="button" id="btnOpenStoryRoom" class="home-shortcut">
+                <svg class="ui-icon shortcut-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M20 15.5a2 2 0 0 1-2 2h-7.5l-5.5 3v-3.8a2 2 0 0 1-2-2V6.5a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2Z"></path><path d="M7 9h9m-9 4h6"></path></svg>
+                <span class="shortcut-text"><span class="shortcut-title">Ruang Cerita</span><span class="shortcut-description">Pendampingan pengasuh</span></span>
+                <svg class="ui-icon shortcut-arrow" aria-hidden="true"><use href="#icon-chevron"></use></svg>
+              </button>
+
+              <button type="button" id="btnOpenAbout" class="home-shortcut">
+                <svg class="ui-icon shortcut-icon" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5m0-8h.01"></path></svg>
+                <span class="shortcut-text"><span class="shortcut-title">Tentang &amp; sumber</span><span class="shortcut-description">Rujukan dan pengelolaan data sesi</span></span>
+                <svg class="ui-icon shortcut-arrow" aria-hidden="true"><use href="#icon-chevron"></use></svg>
+              </button>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="tab-pertumbuhan" class="hidden" aria-label="Pertumbuhan">
+        <header class="section-masthead">
+          <div class="section-heading">
+            <span class="section-stamp"><svg class="ui-icon" aria-hidden="true"><use href="#icon-perkembangan"></use></svg></span>
+            <div><h1>Pertumbuhan</h1><p id="growthProfileLabel" class="section-caption"></p></div>
+          </div>
+          <button type="button" class="trigger-age-modal header-action">Ubah data</button>
+        </header>
+        <div class="p-5 space-y-4">
+          <p id="growthEmpty" class="bg-surface border border-divider rounded-lg p-4 text-sm text-muted">Mulai pemeriksaan di Beranda untuk mencatat pengukuran.</p>
+          <div id="growthContent" class="hidden space-y-4">
+            <section class="space-y-2" aria-labelledby="growthSummaryTitle">
+              <h2 id="growthSummaryTitle" class="home-section-title">Hasil pengukuran</h2>
+              <p id="growthMeasurementNote" class="hidden text-xs text-muted"></p>
+              <div id="growthScores" class="grid grid-cols-2 gap-2"></div>
+            </section>
+            <section class="bg-surface border border-divider rounded-lg p-4 space-y-3" aria-labelledby="growthChartTitle">
+              <h2 id="growthChartTitle" class="home-section-title">Grafik pertumbuhan</h2>
+              <label class="block text-sm text-muted" for="growthIndicator">Indikator</label>
+              <select id="growthIndicator" class="w-full min-h-11 rounded-md border border-divider bg-surface px-3 text-sm">
+                <option value="wfa">BB/U</option><option value="length">PB/TB menurut umur</option>
+                <option value="proportion">BB menurut PB/TB</option><option value="bmi">IMT/U</option>
+                <option value="hcfa">Lingkar kepala/U</option><option value="arm">LiLA</option>
+              </select>
+              <div id="growthChart" class="min-w-0"></div>
+              <p id="growthLegend" class="growth-key flex flex-wrap gap-x-3 gap-y-1 text-xs text-muted"></p>
+              <div id="growthGuidance" class="space-y-1">
+                <p id="growthPointInfo" class="text-xs leading-relaxed text-muted" aria-live="polite"></p>
+                <button type="button" id="growthGuideLink" class="hidden guide-link">Lihat panduan tindak lanjut</button>
+              </div>
+            </section>
+            <section class="space-y-2" aria-labelledby="growthHistoryTitle">
+              <h2 id="growthHistoryTitle" class="home-section-title">Riwayat anak ini</h2>
+              <div id="growthHistory" class="home-list"></div>
+            </section>
+            <details class="bg-surface border border-divider rounded-md text-xs text-muted p-3">
+              <summary class="cursor-pointer font-semibold text-primary">Acuan dan metode</summary>
+              <p class="mt-2">Kategori empat indeks utama mengikuti Permenkes No. 2 Tahun 2020. Kurva dan z-score menggunakan parameter WHO menurut jenis kelamin, umur bulan penuh atau PB/TB. Pada BB/PB dan BB/TB, parameter memakai ukuran hingga 0,1 cm. Hasil yang ditandai perlu dicek ulang oleh petugas.</p>
+              <p class="mt-2 space-x-2">
+                <a class="underline text-primary" href="https://jdih.kemkes.go.id/documents/peraturan-menteri-kesehatan-nomor-2-tahun-2020" rel="noopener noreferrer">Permenkes</a>
+                <a class="underline text-primary" href="https://www.who.int/tools/child-growth-standards" rel="noopener noreferrer">Tabel WHO</a>
+                <a class="underline text-primary" href="https://worldhealthorganization.github.io/anthro/" rel="noopener noreferrer">WHO Anthro</a>
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 2: PERKEMBANGAN ================= -->
+      <section id="tab-perkembangan" class="hidden" aria-label="Perkembangan">
+        <header class="section-masthead">
+          <div class="section-heading">
+            <span class="section-stamp"><svg class="ui-icon" aria-hidden="true"><use href="#icon-perkembangan"></use></svg></span>
+            <div>
+              <h1>Perkembangan</h1>
+              <p class="section-caption" id="devAgeSummary">Belum ada profil usia</p>
+            </div>
+          </div>
+          <button type="button" class="trigger-age-modal header-action">Ubah usia</button>
+        </header>
+
+        <div id="devEmptyNotice" class="p-5">
+          <div class="bg-surface border border-divider rounded-lg p-4 space-y-3">
+            <h2 class="text-base font-semibold text-ink">Isi usia anak terlebih dahulu</h2>
+            <p class="text-sm text-muted">Materi stimulasi dan garis pada lembar Denver II mengikuti usia anak.</p>
+            <div class="flex flex-col gap-1.5">
+              <button type="button" class="trigger-age-modal w-full min-h-11 bg-primary text-white text-sm font-semibold rounded-lg px-4 py-2">Isi usia</button>
+              <button type="button" class="btn-apply-demo-inline w-full min-h-11 text-primary hover:bg-soft text-sm font-semibold rounded-lg px-4 py-2">Coba profil Nara</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="devMainContent" class="p-5 space-y-4 hidden">
+          <div id="developmentViewSwitcher" class="grid grid-cols-3 bg-soft p-1 rounded-lg border border-divider text-sm" role="group" aria-label="Tampilan perkembangan">
+            <button type="button" id="btnViewStimulationMap" aria-controls="viewStimulationArea" aria-pressed="true" class="min-h-10 rounded-md px-1 bg-surface text-ink font-semibold border border-divider">Peta stimulasi</button>
+            <button type="button" id="btnViewKpsp" aria-controls="viewKpspArea" aria-pressed="false" class="min-h-10 rounded-md px-1 text-muted font-normal hover:text-ink">KPSP</button>
+            <button type="button" id="btnViewChartSimulation" aria-controls="viewChartArea" aria-pressed="false" class="min-h-10 rounded-md px-1 text-muted font-normal hover:text-ink">Denver II</button>
+          </div>
+
+          <div id="viewStimulationArea" class="space-y-3">
+            <div class="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+              <h2 id="stimGroupLabel" class="text-sm font-semibold text-ink"></h2>
+              <a class="text-xs font-semibold text-primary hover:underline" href="https://kesprimkom.kemkes.go.id/assets/uploads/contents/others/Buku_KIA_2024.pdf" rel="noopener noreferrer">Buku KIA 2024</a>
+            </div>
+            <p id="stimGuidance" class="text-xs leading-relaxed text-muted">Pilih kegiatan yang nyaman bagi anak, dampingi saat bermain, dan beri waktu untuk mencoba. Gunakan mainan sesuai usia dan jauhkan benda kecil yang bisa tertelan.</p>
+            <div id="stimulationCardsList" class="space-y-2"></div>
+            <p id="stimOutOfRange" class="hidden rounded-lg border border-divider bg-surface p-3 text-sm text-muted">Peta stimulasi tersedia untuk usia lahir hingga 6 tahun.</p>
+            <p id="stimReferences" class="text-xs text-muted">Contoh kegiatan di rumah dirangkum dari Buku KIA 2024 dan <a class="font-medium text-primary underline" href="https://repositori-ditjen-nakes.kemkes.go.id/441/1/modul_21010607295920a21e9be701b86777d9e602774b2188_.pdf" rel="noopener noreferrer">Modul SDIDTK Kemenkes</a>.</p>
+          </div>
+
+          <section id="viewKpspArea" class="hidden" aria-label="Kuesioner Praskrining Perkembangan">
+            <div id="kpspAgePicker" class="space-y-3">
+              <div class="space-y-1">
+                <h2 id="kpspAgeTitle" tabindex="-1" class="text-base font-semibold text-ink">Pilih kelompok usia</h2>
+                <p class="text-xs text-muted">Buka 10 pertanyaan sesuai usia pemeriksaan.</p>
+              </div>
+              <div id="kpspAgeOptions" class="grid grid-cols-4 gap-2"></div>
+            </div>
+
+            <form id="kpspQuestionnaire" class="space-y-3 hidden">
+              <div class="bg-surface border border-divider rounded-lg p-3 flex items-center justify-between gap-2">
+                <div>
+                  <h2 id="kpspQuestionnaireTitle" tabindex="-1" class="text-base font-semibold text-ink"></h2>
+                  <p id="kpspAnswerProgress" class="text-xs text-muted" role="status"></p>
+                </div>
+                <button type="button" id="btnChangeKpspAge" class="min-h-11 rounded-md px-2 text-xs font-semibold text-primary hover:bg-soft shrink-0">Ganti usia</button>
+              </div>
+              <div id="kpspQuestions" class="space-y-3"></div>
+              <button type="submit" class="w-full min-h-11 rounded-lg bg-primary hover:bg-primaryHover text-sm font-semibold text-white px-4">Lihat hasil skrining</button>
+            </form>
+
+            <section id="kpspResult" class="hidden space-y-3" aria-labelledby="kpspResultTitle">
+              <div class="bg-surface border border-divider rounded-lg p-4 space-y-2">
+                <h2 id="kpspResultTitle" tabindex="-1" class="text-base font-semibold text-ink">Hasil Skrining KPSP</h2>
+                <p id="kpspResultAge" class="text-xs text-muted"></p>
+                <div class="bg-soft rounded-lg px-3 py-2">
+                  <p class="text-xs text-muted">Total jawaban Ya</p>
+                  <p id="kpspResultScore" class="text-lg font-mono font-semibold text-ink"></p>
+                  <p id="kpspResultCategory" class="text-sm font-semibold"></p>
+                </div>
+                <div id="kpspNoAnswers" class="space-y-1 hidden">
+                  <h3 class="text-sm font-semibold text-ink">Jawaban Tidak per ranah</h3>
+                  <ul id="kpspNoAnswersList" class="list-disc pl-5 space-y-1 text-sm text-muted"></ul>
+                </div>
+              </div>
+
+              <div class="bg-surface border border-divider rounded-lg p-4 space-y-2">
+                <h3 class="text-sm font-semibold text-ink">Anjuran tindakan</h3>
+                <ul id="kpspRecommendations" class="list-disc pl-5 space-y-1.5 text-sm text-muted"></ul>
+                <button type="button" id="kpspGuideLink" class="guide-link">Lihat panduan tindak lanjut</button>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <button type="button" id="btnEditKpspAnswers" class="min-h-11 rounded-lg border border-divider bg-surface hover:bg-soft px-2 text-sm font-semibold text-primary">Ubah jawaban</button>
+                <button type="button" id="btnFinishKpsp" class="min-h-11 rounded-lg bg-primary hover:bg-primaryHover px-2 text-sm font-semibold text-white">Selesai</button>
+              </div>
+            </section>
+
+            <dialog id="kpspImageDialog" aria-labelledby="kpspImageDialogTitle" class="w-[calc(100%-2rem)] max-w-xl max-h-[90dvh] overflow-auto m-auto rounded-lg border border-divider bg-surface text-ink p-4 backdrop:bg-ink/50">
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <h2 id="kpspImageDialogTitle" class="text-sm font-semibold">Ilustrasi soal</h2>
+                <form method="dialog">
+                  <button type="submit" class="min-h-11 px-3 rounded-md bg-soft text-primary text-sm font-semibold">Tutup</button>
+                </form>
+              </div>
+              <img id="kpspEnlargedImage" class="mx-auto max-h-[67dvh] max-w-full object-contain" alt="">
+            </dialog>
+
+            <template id="kpspQuestionTemplate">
+              <fieldset class="min-w-0 rounded-lg border border-divider bg-surface px-3 pb-3">
+                <legend class="ml-1 px-1.5 text-xs font-semibold text-primary"></legend>
+                <p class="kpsp-domain inline-block rounded bg-soft mt-1 px-2 py-0.5 text-xs font-medium text-primary"></p>
+                <p class="kpsp-prompt mt-2 whitespace-pre-line text-sm leading-relaxed text-ink"></p>
+                <div class="kpsp-question-image"></div>
+                <div class="grid grid-cols-2 gap-2 mt-3">
+                  <label class="min-h-11 rounded-md border border-divider px-2 flex items-center justify-center gap-1.5 text-sm font-medium hover:bg-soft cursor-pointer">
+                    <input type="radio" value="ya" required class="w-4 h-4 accent-primary"> Ya
+                  </label>
+                  <label class="min-h-11 rounded-md border border-divider px-2 flex items-center justify-center gap-1.5 text-sm font-medium hover:bg-soft cursor-pointer">
+                    <input type="radio" value="tidak" required class="w-4 h-4 accent-primary"> Tidak
+                  </label>
+                </div>
+              </fieldset>
+            </template>
+          </section>
+
+          <!-- ========== SIMULASI GRAFIK: LEMBAR DENVER II FOTOREALISTIK ========== -->
+          <div id="viewChartArea" class="space-y-4 hidden">
+            <p class="rounded-lg border border-divider bg-surface px-3 py-2 text-xs text-muted">Grafik Denver II memakai pemetaan sebagian. Rekap Denver II menggunakan temuan dari lembar resmi.</p>
+            <!-- 1. Pita Skala Umur Mini (0–72 bln) -->
+            <div class="bg-surface border border-divider rounded-lg p-3 space-y-2">
+              <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2 min-w-0">
+                  <span class="w-2 h-2 rounded-full bg-danger shrink-0"></span>
+                  <span class="text-sm font-semibold text-ink truncate" id="sheetProfileLine"></span>
+                </div>
+                <span id="sheetModeLabel" class="font-mono text-xs font-medium text-muted shrink-0">0–72 bln</span>
+              </div>
+              <div class="relative h-4 mx-2 flex items-center" aria-hidden="true">
+                <div class="w-full h-1 bg-divider rounded-full relative">
+                  <div id="sheetRulerFill" class="h-full bg-primary rounded-full" style="width: 0%;"></div>
+                </div>
+                <div id="sheetRulerNeedle" class="hidden absolute inset-y-0 w-0.5 -translate-x-1/2 bg-danger">
+                  <span class="absolute -top-0.5 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-danger border-2 border-surface"></span>
+                </div>
+              </div>
+              <div id="sheetRulerLabels" class="relative mx-2 h-4 font-mono text-[10px] text-muted" aria-hidden="true"></div>
+            </div>
+
+            <!-- 2. Kontrol Lembar -->
+            <div class="space-y-2" aria-label="Kontrol lembar">
+              <div class="flex flex-wrap items-center gap-2">
+                <button type="button" id="btnZoomOut" aria-label="Perkecil lembar" class="min-h-11 min-w-11 px-3 bg-surface border border-divider hover:bg-soft text-ink rounded-lg flex items-center justify-center transition-colors">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </button>
+
+                <button type="button" id="btnZoomIn" aria-label="Perbesar lembar" class="min-h-11 min-w-11 px-3 bg-surface border border-divider hover:bg-soft text-ink rounded-lg flex items-center justify-center transition-colors">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </button>
+
+                <button type="button" id="btnFitSheet" class="min-h-11 px-3 bg-surface border border-divider hover:bg-soft text-ink text-xs font-semibold rounded-lg flex items-center gap-1.5 transition-colors">
+                  <svg class="w-4 h-4 text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <polyline points="9 21 3 21 3 15"></polyline>
+                    <line x1="21" y1="3" x2="14" y2="10"></line>
+                    <line x1="3" y1="21" x2="10" y2="14"></line>
+                  </svg>
+                  <span>Pas ke layar</span>
+                </button>
+
+                <button type="button" id="btnFocusLine" class="min-h-11 px-3 bg-primary hover:bg-primaryHover text-white text-xs font-semibold rounded-lg flex items-center gap-1.5 transition-colors ml-auto">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <line x1="12" y1="2" x2="12" y2="6"></line>
+                    <line x1="12" y1="18" x2="12" y2="22"></line>
+                  </svg>
+                  <span>Fokus garis</span>
+                </button>
+              </div>
+
+              <p class="text-xs text-muted">Cubit untuk memperbesar, geser untuk melihat bagian lain.</p>
+
+              <div id="outOfRangeBanner" class="hidden bg-surface border border-danger rounded-lg p-3 text-xs text-danger">
+                Usia berada di luar rentang skala lembar (0–72 bulan). Garis umur tidak ditampilkan.
+              </div>
+            </div>
+
+            <!-- 3. Penampil Lembar Denver II dengan Corner Reticles & Orientasi Sektor -->
+            <div class="relative bg-surface border border-divider rounded-lg overflow-hidden" aria-label="Penampil lembar Denver II">
+              <!-- Optical Corner Reticles (non-obstructive) -->
+              <span class="pointer-events-none absolute top-1.5 left-1.5 w-2.5 h-2.5 border-t border-l border-primary/50 z-20" aria-hidden="true"></span>
+              <span class="pointer-events-none absolute top-1.5 right-1.5 w-2.5 h-2.5 border-t border-r border-primary/50 z-20" aria-hidden="true"></span>
+              <span class="pointer-events-none absolute bottom-1.5 left-1.5 w-2.5 h-2.5 border-b border-l border-primary/50 z-20" aria-hidden="true"></span>
+              <span class="pointer-events-none absolute bottom-1.5 right-1.5 w-2.5 h-2.5 border-b border-r border-primary/50 z-20" aria-hidden="true"></span>
+
+              <div id="sheetViewport" class="relative w-full h-[460px] overflow-hidden">
+                <div id="sheetTransformLayer" class="absolute top-0 left-0 origin-top-left will-change-transform">
+                  <img id="denverSheetImg" alt="Lembar Denver II berbahasa Indonesia, lampiran UMS" width="2905" height="4096" draggable="false" style="display:block;width:100%;max-width:none;height:auto;">
+                  <svg id="ageLineOverlay" viewBox="0 0 2905 4096" class="hidden" aria-hidden="true"
+                    style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;">
+                    <rect id="focusedItemOutline" fill="none" stroke="var(--plum)" stroke-width="7" stroke-dasharray="12 7" visibility="hidden"></rect>
+                    <line id="ageLineStroke" stroke="#a43732" stroke-width="8" stroke-linecap="round"></line>
+                  </svg>
+                  <span id="ageLineBadgeTop" class="hidden absolute bg-danger text-white font-mono text-[10px] font-semibold px-1.5 py-0.5 rounded whitespace-nowrap pointer-events-none"
+                    style="top:6%;transform-origin:top left;" aria-hidden="true"></span>
+                </div>
+
+                <div id="sheetErrorState" class="hidden absolute inset-0 bg-surface flex flex-col items-center justify-center p-5 text-center space-y-3">
+                  <p class="text-sm font-semibold text-ink">Lembar belum dimuat</p>
+                  <button type="button" id="btnReloadSheet" class="min-h-11 px-4 bg-primary hover:bg-primaryHover text-white text-sm font-semibold rounded-lg">
+                    Muat ulang
+                  </button>
+                </div>
+              </div>
+
+              <!-- Strip Orientasi 4 Sektor di Bawah Penampil -->
+              <div class="grid grid-cols-4 border-t border-divider bg-paper divide-x divide-divider text-center">
+                <button type="button" class="sector-jump-btn py-2 px-1 text-[11px] font-medium text-muted hover:bg-soft hover:text-primary transition-colors" data-y="22">
+                  <span class="block font-mono text-[10px] text-primary font-semibold">PS</span>
+                  <span class="truncate block">Sosial</span>
+                </button>
+                <button type="button" class="sector-jump-btn py-2 px-1 text-[11px] font-medium text-muted hover:bg-soft hover:text-primary transition-colors" data-y="42">
+                  <span class="block font-mono text-[10px] text-primary font-semibold">MH</span>
+                  <span class="truncate block">Halus</span>
+                </button>
+                <button type="button" class="sector-jump-btn py-2 px-1 text-[11px] font-medium text-muted hover:bg-soft hover:text-primary transition-colors" data-y="63">
+                  <span class="block font-mono text-[10px] text-primary font-semibold">B</span>
+                  <span class="truncate block">Bahasa</span>
+                </button>
+                <button type="button" class="sector-jump-btn py-2 px-1 text-[11px] font-medium text-muted hover:bg-soft hover:text-primary transition-colors" data-y="82">
+                  <span class="block font-mono text-[10px] text-primary font-semibold">MK</span>
+                  <span class="truncate block">Kasar</span>
+                </button>
+              </div>
+            </div>
+
+            <details id="denverRecap" class="bg-surface border border-divider rounded-lg">
+              <summary class="cursor-pointer rounded-lg px-4 py-3 text-sm font-semibold text-primary hover:bg-soft">Rekap Denver II</summary>
+              <div class="px-4 pb-4 space-y-3">
+                <p id="denverRecapDemo" class="hidden rounded-md bg-soft px-3 py-2 text-xs font-semibold text-primary">Simulasi profil Nara</p>
+                <p id="denverRecapUnavailable" class="hidden text-sm text-muted">Usia profil di luar rentang Denver II (lahir hingga 6 tahun).</p>
+                <form id="denverRecapForm" class="space-y-3">
+                  <p class="text-xs leading-relaxed text-muted">Gunakan lembar resmi yang sudah diperiksa petugas. Masukkan butir gagal (F) atau menolak (R) yang seluruh baloknya di kiri garis umur atau dilintasi pada P75–P90. Gunakan garis usia koreksi pada lembar bila diperlukan.</p>
+                  <div id="denverRecapFindings" class="space-y-2"></div>
+                  <button id="btnAddDenverFinding" type="button" class="w-full min-h-11 rounded-md border border-divider hover:bg-soft px-3 text-sm font-semibold text-primary">Tambah temuan</button>
+                  <p class="text-xs text-muted">Jika tidak ada temuan pada kedua posisi tersebut, lanjutkan ke konfirmasi.</p>
+                  <label class="flex items-start gap-2 rounded-md bg-paper border border-divider p-3 text-sm text-ink cursor-pointer">
+                    <input id="denverRecapComplete" type="checkbox" required class="mt-0.5 w-4 h-4 shrink-0 accent-primary">
+                    <span>Pemeriksaan sesuai manual sudah selesai di keempat sektor dan semua temuan di atas sudah dicatat.</span>
+                  </label>
+                  <p id="denverRecapError" class="hidden text-xs text-danger" role="alert"></p>
+                  <button type="submit" class="w-full min-h-11 rounded-lg bg-primary hover:bg-primaryHover px-3 text-sm font-semibold text-white">Lihat hasil rekap</button>
+                </form>
+
+                <section id="denverRecapResult" class="hidden space-y-3 rounded-lg border border-divider bg-paper p-3" aria-labelledby="denverRecapResultTitle">
+                  <div class="space-y-1">
+                    <h2 id="denverRecapResultTitle" tabindex="-1" class="text-sm font-semibold text-ink">Hasil rekap</h2>
+                    <p id="denverRecapCategory" class="text-base font-semibold"></p>
+                    <p id="denverRecapReason" class="text-sm text-ink"></p>
+                  </div>
+                  <dl class="grid grid-cols-2 gap-2 text-xs">
+                    <div class="rounded-md border border-divider bg-surface p-2">
+                      <dt class="text-muted">Caution</dt>
+                      <dd id="denverCautionCount" class="font-mono font-semibold text-ink"></dd>
+                    </div>
+                    <div class="rounded-md border border-divider bg-surface p-2">
+                      <dt class="text-muted">Delay</dt>
+                      <dd id="denverDelayCount" class="font-mono font-semibold text-ink"></dd>
+                    </div>
+                  </dl>
+                  <ul id="denverRecapDetails" class="list-disc space-y-1 pl-5 text-xs text-muted break-words"></ul>
+                  <p id="denverRecapFollowUp" class="text-sm text-ink"></p>
+                  <button type="button" id="denverGuideLink" class="guide-link">Lihat panduan tindak lanjut</button>
+                </section>
+
+                <template id="denverRecapFindingTemplate">
+                  <fieldset class="min-w-0 space-y-2 rounded-md border border-divider p-2.5">
+                    <legend class="px-1 text-xs font-semibold text-primary">Temuan</legend>
+                    <label class="block space-y-1 text-xs text-muted">
+                      <span>Nama butir pada lembar</span>
+                      <input name="denverItem" type="text" maxlength="120" required class="w-full min-w-0 min-h-10 rounded-md border border-divider bg-surface px-2 text-sm text-ink">
+                    </label>
+                    <label class="block space-y-1 text-xs text-muted">
+                      <span>Sektor</span>
+                      <select name="denverSector" required class="w-full min-w-0 min-h-10 rounded-md border border-divider bg-surface px-2 text-sm text-ink">
+                        <option value="">Pilih sektor</option>
+                      </select>
+                    </label>
+                    <label class="block space-y-1 text-xs text-muted">
+                      <span>Respons</span>
+                      <select name="denverResponse" required class="w-full min-w-0 min-h-10 rounded-md border border-divider bg-surface px-2 text-sm text-ink">
+                        <option value="">Pilih respons</option>
+                        <option value="F">F · Gagal</option>
+                        <option value="R">R · Menolak butir uji langsung</option>
+                      </select>
+                    </label>
+                    <label class="block space-y-1 text-xs text-muted">
+                      <span>Posisi terhadap garis umur</span>
+                      <select name="denverPosition" required class="w-full min-w-0 min-h-10 rounded-md border border-divider bg-surface px-2 text-sm text-ink">
+                        <option value="">Pilih posisi</option>
+                        <option value="caution">Garis umur pada P75–P90</option>
+                        <option value="delay">Seluruh balok di kiri garis umur</option>
+                      </select>
+                    </label>
+                    <button type="button" class="denver-remove-finding min-h-10 rounded-md px-2 text-xs font-semibold text-danger hover:bg-paper">Hapus temuan</button>
+                  </fieldset>
+                </template>
+              </div>
+            </details>
+
+            <!-- 4. Butir yang Dilintasi Garis Umur -->
+            <div class="pt-1 space-y-3" aria-label="Butir yang dilintasi garis umur">
+              <div class="flex items-baseline justify-between gap-2">
+                <h2 class="text-base font-semibold text-ink">Butir yang dilintasi garis umur</h2>
+                <span id="mappingModeLabel" class="font-mono text-xs text-muted shrink-0">Pemetaan sebagian</span>
+              </div>
+
+              <div id="sectorMatchSummaryBar" class="grid grid-cols-4 gap-1.5"></div>
+
+              <div id="mappingUnavailableBox" class="hidden bg-surface border border-divider rounded-lg p-4 text-sm text-muted">
+                Tidak ada kecocokan pada butir yang sudah dipetakan.
+              </div>
+              <p id="mappingCoverageNote" class="text-xs text-muted"></p>
+              <details class="bg-surface border border-divider rounded-lg px-3 py-2 text-sm text-muted">
+                <summary class="cursor-pointer font-medium text-ink">Cara membaca 25%, 50%, 75%, dan 90%</summary>
+                <p class="mt-2">Angka pada legenda lembar menunjukkan usia ketika persentase tersebut dari sampel standardisasi dapat melakukan butir. Bagian putih umumnya mencakup 25% hingga sebelum 75%, dengan tanda 50% di antaranya. Arsiran hijau umumnya mencakup 75–90%.</p>
+                <p class="mt-2">Label posisi di bawah berasal dari geometri scan. Skor pemeriksaan memerlukan respons anak dan aturan manual Denver II.</p>
+                <a class="mt-2 inline-block text-primary underline" href="https://acf.gov/sites/default/files/documents/opre/compendium_2013_508_compliant_final_2_5_2014.pdf" rel="noopener noreferrer">Rujukan skrining Denver II</a>
+              </details>
+
+              <div id="sectorListsContainer" class="space-y-3"></div>
+            </div>
+
+            <!-- 5. Observasi -->
+            <div class="pt-2 space-y-3" aria-label="Observasi">
+              <div class="flex items-center justify-between gap-2">
+                <h2 class="text-base font-semibold text-ink">Observasi</h2>
+                <span id="obsStatusTag" class="hidden font-mono text-xs font-semibold text-primary">Ringkasan observasi</span>
+              </div>
+
+              <div id="obsEmptyBox" class="bg-surface border border-divider rounded-lg p-4 flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3 min-w-0">
+                  <svg class="w-8 h-8 text-divider shrink-0" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                    <circle cx="16" cy="16" r="13" stroke="currentColor" stroke-width="2.5" stroke-dasharray="4 4"></circle>
+                  </svg>
+                  <p class="text-sm text-muted">Observasi belum diisi.</p>
+                </div>
+                <button type="button" id="btnStartObservation" class="min-h-11 px-3.5 bg-primary hover:bg-primaryHover text-white text-sm font-semibold rounded-lg shrink-0">
+                  Catat observasi
+                </button>
+              </div>
+
+              <div id="obsFormBox" class="hidden bg-surface border border-divider rounded-lg p-4 space-y-3">
+                <p id="obsFormInstructions" class="text-xs text-muted">Catat pengamatan untuk butir terpetakan yang dilintasi garis umur.</p>
+                <div id="obsFormRows" class="divide-y divide-divider"></div>
+                <p id="obsFormError" class="hidden text-xs text-danger" role="alert"></p>
+                <div class="flex gap-2 pt-2">
+                  <button type="button" id="btnSaveObservation" class="flex-1 min-h-11 bg-primary hover:bg-primaryHover text-white text-sm font-semibold rounded-lg">
+                    Simpan ringkasan
+                  </button>
+                  <button type="button" id="btnCancelObservation" class="min-h-11 px-4 border border-divider bg-surface text-ink text-sm font-semibold rounded-lg">
+                    Batal
+                  </button>
+                </div>
+              </div>
+
+              <div id="obsSummaryBox" class="hidden bg-surface border border-divider rounded-lg p-4 space-y-3">
+                <div class="w-full h-2.5 bg-paper rounded-full overflow-hidden flex" id="obsVisualBar"></div>
+                <div id="obsSummaryCounts" class="text-xs text-ink font-mono"></div>
+                <p class="text-xs text-muted">Ringkasan respons observasi untuk butir yang sudah dipetakan.</p>
+                <button type="button" id="btnEditObservation" class="min-h-11 text-sm font-semibold text-primary hover:underline">
+                  Ubah catatan observasi
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-layanan" class="hidden" aria-label="Layanan">
+        <div class="service-switcher grid grid-cols-2 bg-soft border-b border-divider gap-1 p-1.5" role="group" aria-label="Pilih layanan">
+          <button type="button" data-service-tab="makan" aria-controls="tab-makan" aria-pressed="true" class="min-h-11 rounded-md text-sm font-semibold text-primary">Gizi</button>
+          <button type="button" data-service-tab="imunisasi" aria-controls="tab-imunisasi" aria-pressed="false" class="min-h-11 rounded-md text-sm font-semibold text-primary">Imunisasi</button>
+        </div>
+
+      <!-- ================= TAB 3: MAKAN & RUTINITAS ================= -->
+      <section id="tab-makan" class="hidden" aria-label="Makan dan Rutinitas">
+        <header class="section-masthead">
+          <div class="section-heading">
+            <span class="section-stamp"><svg class="ui-icon" aria-hidden="true"><use href="#icon-makan"></use></svg></span>
+            <div>
+              <h1>Gizi &amp; pemberian makan</h1>
+              <p class="section-caption" id="nutritionAgeHeader">Belum ada profil usia</p>
+            </div>
+          </div>
+          <button type="button" class="trigger-age-modal header-action">Ubah usia</button>
+        </header>
+
+        <div id="makanEmptyNotice" class="p-5">
+          <div class="bg-surface border border-divider rounded-lg p-4 space-y-3">
+            <h2 class="text-base font-semibold text-ink">Isi usia anak terlebih dahulu</h2>
+            <p class="text-sm text-muted">Panduan frekuensi, porsi, tekstur, dan contoh menu akan menyesuaikan kelompok usia.</p>
+            <div class="flex flex-col gap-1.5">
+              <button type="button" class="trigger-age-modal w-full min-h-11 bg-primary text-white text-sm font-semibold rounded-lg px-4 py-2">Isi usia</button>
+              <button type="button" class="btn-apply-demo-inline w-full min-h-11 text-primary hover:bg-soft text-sm font-semibold rounded-lg px-4 py-2">Coba profil Nara</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="makanMainContent" class="p-5 space-y-4 hidden">
+          <section class="nutrition-overview bg-surface border border-divider rounded-lg p-4 space-y-3" aria-labelledby="nutriSubtitle">
+            <div class="flex flex-wrap items-baseline justify-between gap-2 text-xs">
+              <p class="font-semibold text-primary" id="nutriGroupBadge"></p>
+              <a id="nutritionPrimarySource" class="font-medium text-primary hover:underline" rel="noopener noreferrer"></a>
+            </div>
+            <h2 class="text-base font-semibold text-ink" id="nutriSubtitle"></h2>
+            <dl class="grid grid-cols-2 gap-3 pt-3 text-xs border-t border-divider">
+              <div>
+                <dt class="text-muted">Frekuensi</dt>
+                <dd class="font-semibold text-ink mt-0.5 whitespace-pre-line" id="nutriFreq"></dd>
+              </div>
+              <div>
+                <dt class="text-muted" id="nutriPortionLabel">Porsi per makan</dt>
+                <dd class="font-semibold text-ink mt-0.5" id="nutriPortion"></dd>
+              </div>
+            </dl>
+            <div class="text-sm pt-3 border-t border-divider">
+              <h3 class="text-xs font-semibold text-muted" id="nutriTextureLabel">Tekstur</h3>
+              <p class="text-ink mt-1" id="nutriTexture"></p>
+            </div>
+            <p id="nutritionMilkNote" class="rounded-md bg-soft p-3 text-xs leading-relaxed text-ink"></p>
+          </section>
+
+          <details id="nutritionGuideDetails" data-nutrition-details class="bg-surface border border-divider rounded-lg">
+            <summary id="nutritionGuideTitle" class="cursor-pointer rounded-lg px-4 py-3 text-sm font-semibold text-primary">Panduan makan sesuai usia</summary>
+            <div id="nutritionGuideSteps" class="space-y-3 px-4 pb-4"></div>
+          </details>
+
+          <details id="nutritionSafetyDetails" data-nutrition-details class="hidden bg-surface border border-divider rounded-lg">
+            <summary class="cursor-pointer rounded-lg px-4 py-3 text-sm font-semibold text-primary">Cara makan aman dan responsif</summary>
+            <div id="nutritionSafetySteps" class="space-y-3 px-4 pb-4"></div>
+          </details>
+
+          <section id="nutritionMenuSection" class="hidden space-y-2.5" aria-labelledby="nutritionMenuTitle">
+            <div class="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+              <h2 id="nutritionMenuTitle" class="text-base font-semibold text-ink">Ide menu sesuai usia</h2>
+              <a class="text-xs font-medium text-primary hover:underline" href="https://ayosehat.kemkes.go.id/buku-resep-makanan-lokal" rel="noopener noreferrer">Buku resep Kemenkes</a>
+            </div>
+            <p class="text-xs text-muted">Buka menu untuk melihat bahan dan cara penyajian. Sesuaikan jumlah dengan panduan porsi dan selera anak.</p>
+            <div id="nutritionMenuList" class="space-y-2"></div>
+          </section>
+
+          <section class="bg-surface border border-divider rounded-lg p-4 space-y-3" aria-labelledby="routineTitle">
+            <h2 id="routineTitle" class="text-base font-semibold text-ink">Rutinitas hari ini</h2>
+            <p class="text-xs text-muted">Tambahkan menu atau aktivitas dan waktunya. Daftar tersimpan lokal pada kunjungan ini.</p>
+            <form id="routineForm" class="routine-form text-sm">
+              <input type="time" id="routineTimeInput" value="08:00" aria-label="Waktu rutinitas" class="border border-divider rounded-lg px-2.5 py-2 bg-surface text-ink min-h-11 font-mono text-xs">
+              <input type="text" id="routineActivityInput" placeholder="Aktivitas..." aria-label="Nama aktivitas" class="border border-divider rounded-lg px-3 py-2 bg-surface text-ink min-h-11 text-sm">
+              <button type="submit" id="btnAddNewRoutine" class="min-h-11 bg-primary hover:bg-primaryHover text-white font-semibold rounded-lg px-3.5 text-sm">Tambah</button>
+            </form>
+            <div class="divide-y divide-divider" id="routineItemsList"></div>
+          </section>
+
+          <details class="bg-surface border border-divider rounded-lg">
+            <summary class="cursor-pointer rounded-lg px-4 py-3 text-sm font-semibold text-primary">Rujukan gizi</summary>
+            <ul class="px-4 pb-4 space-y-2 text-sm text-primary">
+              <li><a class="underline" href="https://kesprimkom.kemkes.go.id/assets/uploads/contents/others/Buku_KIA_2024.pdf" rel="noopener noreferrer">Buku KIA 2024</a></li>
+              <li><a class="underline" href="https://ayosehat.kemkes.go.id/pub/files/fb2ced153d97b36d44188f9cc9bea18d.pdf" rel="noopener noreferrer">Juknis MP-ASI 6–23 bulan, Kemenkes</a></li>
+              <li><a class="underline" href="https://www.who.int/health-topics/complementary-feeding" rel="noopener noreferrer">Pemberian makanan pendamping, WHO</a></li>
+              <li><a class="underline" href="https://www.cdc.gov/infant-toddler-nutrition/foods-and-drinks/choking-hazards.html" rel="noopener noreferrer">Pencegahan tersedak, CDC</a></li>
+              <li><a class="underline" href="https://www.cdc.gov/infant-toddler-nutrition/foods-and-drinks/foods-and-drinks-to-avoid-or-limit.html" rel="noopener noreferrer">Makanan yang perlu dihindari atau dibatasi, CDC</a></li>
+            </ul>
+          </details>
+
+          <template id="nutritionMenuTemplate">
+            <details class="bg-surface rounded-lg border border-divider">
+              <summary class="cursor-pointer rounded-lg px-3.5 py-3 text-sm font-semibold text-ink">
+                <span class="menu-name"></span>
+                <span class="menu-type ml-1 text-xs font-medium text-primary"></span>
+              </summary>
+              <div class="px-3.5 pb-3.5 space-y-2 text-sm">
+                <dl class="space-y-2 rounded-md bg-soft p-3">
+                  <div>
+                    <dt class="text-xs font-semibold text-primary">Bahan</dt>
+                    <dd class="menu-ingredients mt-0.5 text-ink"></dd>
+                  </div>
+                  <div>
+                    <dt class="text-xs font-semibold text-primary">Cara menyiapkan</dt>
+                    <dd class="menu-method mt-0.5 text-ink"></dd>
+                  </div>
+                </dl>
+                <form class="flex flex-wrap items-end gap-2">
+                  <label class="text-xs text-muted">
+                    Jam
+                    <input type="time" required class="block min-h-11 rounded-md border border-divider bg-surface px-2 font-mono text-sm text-ink">
+                  </label>
+                  <button type="submit" class="min-h-11 rounded-md bg-primary hover:bg-primaryHover px-3 text-xs font-semibold text-white">Tambahkan ke rutinitas</button>
+                </form>
+                <p class="menu-feedback text-xs font-medium text-primary" role="status"></p>
+              </div>
+            </details>
+          </template>
+        </div>
+      </section>
+
+      <!-- ================= TAB 4: IMUNISASI ================= -->
+      <section id="tab-imunisasi" class="hidden" aria-label="Imunisasi">
+        <header class="section-masthead">
+          <div class="section-heading">
+            <span class="section-stamp"><svg class="ui-icon" aria-hidden="true"><use href="#icon-imunisasi"></use></svg></span>
+            <div>
+              <h1>Imunisasi</h1>
+              <p class="section-caption">Imunisasi rutin bayi dan baduta</p>
+            </div>
+          </div>
+          <button type="button" class="trigger-age-modal header-action">Ubah usia</button>
+        </header>
+
+        <div class="p-5 space-y-4">
+          <div class="vaccine-reference bg-soft border border-divider rounded-lg p-3.5 space-y-2 text-sm text-ink">
+            <p class="font-semibold">Jadwal acuan DPT-HB-Hib dan IPV terpisah</p>
+            <p>Verifikasi riwayat di Buku KIA atau ASIK. Untuk heksavalen dan imunisasi kejar, rujuk juknis yang berlaku di wilayah kerja.</p>
+            <div class="flex flex-wrap gap-x-4 gap-y-1">
+              <a class="text-primary underline" href="https://jdih.kemkes.go.id/storage/documents/pdfs/2024kepmenkes1098.pdf#page=5" rel="noopener noreferrer">Jadwal program</a>
+              <a class="text-primary underline" href="https://jdih.kemkes.go.id/documents/keputusan-menteri-kesehatan-nomor-hk0107menkes9322025" rel="noopener noreferrer">Acuan heksavalen</a>
+            </div>
+          </div>
+
+          <div class="bg-surface border border-divider rounded-lg p-4 space-y-3">
+            <h2 class="vaccine-record-title text-ink">Catatan pemberian</h2>
+            <p id="vaccineRecordContext" class="text-xs text-muted">Isi profil usia untuk mencatat riwayat.</p>
+            <div class="space-y-2.5 text-sm">
+              <div>
+                <label for="selectVaccineId" class="block text-xs text-muted mb-1">Pilih dosis</label>
+                <select id="selectVaccineId" class="w-full min-h-11 border border-divider rounded-lg px-3 bg-surface text-ink text-sm"></select>
+              </div>
+              <div>
+                <label for="inputVaccineDate" class="block text-xs text-muted mb-1">Tanggal pemberian</label>
+                <input type="date" id="inputVaccineDate" class="w-full min-h-11 border border-divider rounded-lg px-3 bg-surface text-ink text-sm">
+              </div>
+              <p id="vaccineFormError" role="alert" class="text-xs text-danger hidden"></p>
+              <button type="button" id="btnSaveVaccineRecord" class="w-full min-h-11 bg-primary text-white font-semibold rounded-lg text-sm">Simpan catatan</button>
+            </div>
+          </div>
+
+          <section class="space-y-2" aria-labelledby="vaccineScheduleTitle">
+            <h2 id="vaccineScheduleTitle" class="vaccine-list-title text-ink">Jadwal per usia</h2>
+            <div class="bg-surface border border-divider rounded-lg divide-y divide-divider" id="vaccineListContainer"></div>
+          </section>
+          <section class="bg-surface border border-divider rounded-lg p-3.5 space-y-1.5" aria-labelledby="jeReferenceTitle">
+            <h2 class="text-sm font-semibold text-ink" id="jeReferenceTitle">Acuan khusus wilayah endemis JE</h2>
+            <p class="text-xs text-muted">Japanese Encephalitis (JE) · 10 bulan pada daerah endemis. Cocokkan pelaksanaan dengan program wilayah.</p>
+            <div id="regionalVaccineRecord" class="text-xs text-muted"></div>
+          </section>
+        </div>
+      </section>
+
+      </section>
+
+      <section id="tab-panduan" class="hidden" aria-label="Panduan">
+        <header class="section-masthead">
+          <div class="section-heading">
+            <span class="section-stamp"><svg class="ui-icon" aria-hidden="true"><use href="#icon-panduan"></use></svg></span>
+            <div><h1>Panduan</h1><p class="section-caption">Temuan dan rujukan · tersedia offline</p></div>
+          </div>
+        </header>
+        <div class="guide-body">
+          <div id="guideLibrary" class="guide-library">
+            <button id="guideDangerToggle" class="guide-danger-button" type="button" aria-pressed="false">
+              <svg class="ui-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3 2 20h20L12 3Zm0 6v4m0 3h.01"></path></svg>
+              <span>Tanda bahaya</span>
+            </button>
+            <div class="guide-filters">
+              <label for="guideQuery">Cari temuan atau kondisi
+                <input id="guideQuery" type="search" placeholder="Contoh: pupil putih" autocomplete="off">
+              </label>
+              <label for="guideAgeFilter">Kelompok usia
+                <select id="guideAgeFilter">
+                  <option value="">Semua kelompok</option>
+                </select>
+              </label>
+            </div>
+            <div>
+              <h2 id="guideListTitle" class="home-section-title">Artikel panduan</h2>
+              <p id="guideCount" class="text-xs text-muted mb-2" role="status"></p>
+              <ul id="guideList" class="guide-list" aria-labelledby="guideListTitle"></ul>
+            </div>
+          </div>
+          <article id="guideArticle" class="hidden guide-article" aria-labelledby="guideArticleTitle">
+            <button id="guideBack" type="button" class="guide-link"></button>
+            <header class="guide-article-header">
+              <p id="guideArticleGroup" class="text-xs font-semibold text-primary"></p>
+              <h2 id="guideArticleTitle" tabindex="-1"></h2>
+              <p id="guideArticleScope" class="text-sm text-muted"></p>
+            </header>
+            <div id="guideArticleBody"></div>
+            <button id="guideMakeReferral" type="button" class="hidden guide-primary"></button>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <!-- ================= NAVIGASI BAWAH ================= -->
+    <nav class="app-nav" aria-label="Navigasi utama">
+      <div role="tablist">
+        <button type="button" role="tab" aria-controls="tab-beranda" aria-selected="true" class="nav-tab-btn" data-tab="beranda">
+          <span class="nav-glyph"><svg class="ui-icon" aria-hidden="true"><use href="#icon-beranda"></use></svg></span>
+          <span>Beranda</span>
+        </button>
+        <button type="button" role="tab" aria-controls="tab-pertumbuhan" aria-selected="false" class="nav-tab-btn" data-tab="pertumbuhan">
+          <span class="nav-glyph"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19h16M6 16V9m4 7V7m4 9V5m4 11V3"></path></svg></span>
+          <span>Pertumbuhan</span>
+        </button>
+        <button type="button" role="tab" aria-controls="tab-perkembangan" aria-selected="false" class="nav-tab-btn" data-tab="perkembangan">
+          <span class="nav-glyph"><svg class="ui-icon" aria-hidden="true"><use href="#icon-perkembangan"></use></svg></span>
+          <span>Perkembangan</span>
+        </button>
+        <button type="button" role="tab" aria-controls="tab-layanan" aria-selected="false" class="nav-tab-btn" data-tab="layanan">
+          <span class="nav-glyph"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="7" width="16" height="13" rx="2"></rect><path d="M9 7V4h6v3m-3 3v7m-3.5-3.5h7"></path></svg></span>
+          <span>Layanan</span>
+        </button>
+        <button type="button" role="tab" aria-controls="tab-panduan" aria-selected="false" class="nav-tab-btn" data-tab="panduan">
+          <span class="nav-glyph"><svg class="ui-icon" aria-hidden="true"><use href="#icon-panduan"></use></svg></span>
+          <span>Panduan</span>
+        </button>
+      </div>
+    </nav>
+
+    <dialog id="referralDialog" class="referral-dialog" aria-labelledby="referralTitle">
+      <header class="referral-header">
+        <div><h2 id="referralTitle" class="home-section-title !mb-0">Ringkasan serah terima</h2><p id="referralVisitLabel" class="text-sm text-muted"></p></div>
+        <button id="referralClose" class="header-action" type="button">Tutup</button>
+      </header>
+      <div id="referralRecords"></div>
+      <form id="referralForm" class="hidden referral-form">
+        <label for="referralFindings">Temuan yang perlu disampaikan
+          <textarea id="referralFindings" name="findings" rows="3" maxlength="1800" required></textarea>
+        </label>
+        <label for="referralReason">Alasan serah terima atau rujukan
+          <textarea id="referralReason" name="reason" rows="2" maxlength="700" required></textarea>
+        </label>
+        <label for="referralUrgency">Urgensi
+          <select id="referralUrgency" name="urgency" required>
+            <option value="">Pilih urgensi</option>
+            <option value="Terjadwal">Terjadwal</option>
+            <option value="Segera">Segera</option>
+            <option value="Gawat darurat">Gawat darurat</option>
+          </select>
+        </label>
+        <label for="referralAction">Tindakan awal <span>(opsional)</span>
+          <textarea id="referralAction" name="actionTaken" rows="2" maxlength="700"></textarea>
+        </label>
+        <label for="referralDestination">Fasilitas tujuan
+          <input id="referralDestination" name="destination" maxlength="160" required>
+        </label>
+        <label for="referralUnit">Unit layanan tujuan
+          <input id="referralUnit" name="unit" maxlength="120" required>
+        </label>
+        <label for="referralFollowUp">Rencana tindak lanjut <span>(opsional)</span>
+          <textarea id="referralFollowUp" name="followUp" rows="2" maxlength="700"></textarea>
+        </label>
+        <p class="text-xs text-muted">Gunakan jalur rujukan resmi sesuai SOP fasilitas. Pada keadaan darurat, utamakan penanganan dan transportasi.</p>
+        <p id="referralStatus" class="text-sm font-semibold text-primary" role="status"></p>
+        <div class="referral-actions">
+          <button class="guide-link" id="referralToList" type="button">Daftar ringkasan</button>
+          <button class="guide-secondary" type="submit" value="save">Simpan</button>
+          <button class="guide-primary" type="submit" value="print">Simpan &amp; cetak</button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- ================= DIALOG USIA ANAK ================= -->
+    <div id="modalAgeInput" role="dialog" aria-modal="true" aria-labelledby="ageModalTitle" class="fixed inset-0 bg-ink/40 z-50 flex justify-center hidden">
+      <div class="bg-surface w-full max-w-[544px] h-full p-5 sm:p-7">
+        <div class="flex items-center justify-between gap-3 pb-4 border-b border-divider">
+          <div><h2 id="ageModalTitle" class="home-section-title !mb-0">Mulai pemeriksaan</h2><p id="visitFormStepLabel" class="mt-1 text-xs text-muted"></p></div>
+          <button type="button" id="btnCloseAgeModal" class="header-action">Tutup</button>
+        </div>
+        <form id="ageForm" novalidate class="space-y-4 pt-4">
+          <div id="visitProfileFields" class="space-y-4">
+            <div>
+              <label for="visitChildLabel" class="block text-sm font-semibold mb-1">Kode anak <span class="font-normal text-muted">(opsional)</span></label>
+              <input id="visitChildLabel" type="text" maxlength="24" placeholder="Contoh A-01" class="w-full min-h-11 border border-divider rounded-md px-3 bg-surface text-sm">
+            </div>
+            <div>
+              <label for="visitSex" class="block text-sm font-semibold mb-1">Jenis kelamin untuk kurva</label>
+              <select id="visitSex" class="w-full min-h-11 border border-divider rounded-md px-3 bg-surface text-sm">
+                <option value="">Pilih</option><option value="f">Perempuan</option><option value="m">Laki-laki</option>
+              </select>
+              <p id="errorVisitSex" class="hidden text-xs text-danger mt-1" role="alert"></p>
+            </div>
+            <div>
+              <label for="inputBirthDate" class="block text-sm font-semibold mb-1">Tanggal lahir</label>
+              <input type="date" id="inputBirthDate" class="w-full min-h-11 border border-divider rounded-md px-3 bg-surface text-sm">
+              <p id="errorBirthDate" class="hidden text-xs text-danger mt-1" role="alert"></p>
+            </div>
+            <div>
+              <label for="inputExamDate" class="block text-sm font-semibold mb-1">Tanggal pemeriksaan</label>
+              <input type="date" id="inputExamDate" class="w-full min-h-11 border border-divider rounded-md px-3 bg-surface text-sm">
+              <p id="errorExamDate" class="hidden text-xs text-danger mt-1" role="alert"></p>
+            </div>
+          </div>
+          <div id="visitMeasureFields" class="hidden space-y-4">
+            <p id="visitComputedAge" class="bg-soft rounded-md p-3 text-sm font-semibold text-primary"></p>
+            <p class="text-sm text-muted">Masukkan ukuran yang tersedia. Kolom yang belum diukur boleh dikosongkan.</p>
+            <div class="grid grid-cols-2 gap-3">
+              <label class="min-w-0 text-sm font-semibold">BB (kg)<input id="visitWeight" inputmode="decimal" class="block w-full min-h-11 mt-1 border border-divider rounded-md px-3 bg-surface font-normal" placeholder="8,4"></label>
+              <label class="min-w-0 text-sm font-semibold">PB/TB (cm)<input id="visitHeight" inputmode="decimal" class="block w-full min-h-11 mt-1 border border-divider rounded-md px-3 bg-surface font-normal" placeholder="70,5"></label>
+            </div>
+            <label class="block text-sm font-semibold">Posisi pengukuran PB/TB
+              <select id="visitPosition" class="block w-full min-h-11 mt-1 border border-divider rounded-md px-3 bg-surface font-normal">
+                <option value="">Pilih posisi</option><option value="length">Telentang (PB)</option><option value="height">Berdiri (TB)</option>
+              </select>
+            </label>
+            <div class="grid grid-cols-2 gap-3">
+              <label class="min-w-0 text-sm font-semibold">Lingkar kepala (cm)<input id="visitHead" inputmode="decimal" class="block w-full min-h-11 mt-1 border border-divider rounded-md px-3 bg-surface font-normal" placeholder="44,1"></label>
+              <label class="min-w-0 text-sm font-semibold">LiLA (cm)<input id="visitArm" inputmode="decimal" class="block w-full min-h-11 mt-1 border border-divider rounded-md px-3 bg-surface font-normal" placeholder="14,2"></label>
+            </div>
+            <label class="flex gap-2 items-start text-sm text-muted"><input type="checkbox" id="visitOedema" class="w-4 h-4 mt-0.5 shrink-0 accent-primary">Edema bilateral tercatat oleh petugas</label>
+            <p id="errorVisitMeasure" class="hidden text-sm text-danger" role="alert"></p>
+          </div>
+          <div class="flex flex-col gap-2 pt-2">
+            <button type="submit" id="btnSaveAge" class="w-full min-h-11 bg-primary hover:bg-primaryHover text-white text-sm font-semibold rounded-md px-4 py-2">Lanjut ke pengukuran</button>
+            <button type="button" id="btnVisitProfileBack" class="hidden min-h-11 text-primary text-sm font-semibold rounded-md px-4 py-2">Kembali ke profil</button>
+            <button type="button" id="btnApplyDemoNaraModal" class="min-h-11 text-primary hover:bg-soft text-sm font-semibold rounded-md px-4 py-2">Coba profil Nara</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ================= DIALOG SIAPKAN KUNJUNGAN ================= -->
+    <div id="modalVisitPrep" role="dialog" aria-modal="true" aria-labelledby="visitPrepTitle" class="fixed inset-0 bg-ink/40 z-50 flex items-end sm:items-center justify-center hidden">
+      <div class="bg-surface w-full max-w-[430px] rounded-t-xl sm:rounded-xl border border-divider p-5 space-y-4">
+        <div class="flex items-center justify-between border-b border-divider pb-3">
+          <h2 id="visitPrepTitle" class="text-lg font-semibold text-ink">Siapkan kunjungan</h2>
+          <button type="button" id="btnCloseVisitPrep" class="min-h-11 px-3 text-sm font-semibold text-muted hover:text-ink rounded-lg">Tutup</button>
+        </div>
+        <p class="text-sm text-muted">Ceklis persiapan ini tersimpan sementara selama sesi berlangsung.</p>
+        <div class="divide-y divide-divider border border-divider rounded-lg">
+          <label class="flex items-center gap-3 p-3.5 min-h-12 cursor-pointer">
+            <input type="checkbox" id="checkKiaBook" class="visit-check w-5 h-5 accent-primary rounded">
+            <span class="text-sm text-ink">Cocokkan profil dengan Buku KIA</span>
+          </label>
+          <label class="flex items-center gap-3 p-3.5 min-h-12 cursor-pointer">
+            <input type="checkbox" id="checkImmunizationRecord" class="visit-check w-5 h-5 accent-primary rounded">
+            <span class="text-sm text-ink">Cek catatan imunisasi terakhir</span>
+          </label>
+          <label class="flex items-center gap-3 p-3.5 min-h-12 cursor-pointer">
+            <input type="checkbox" id="checkQuestionList" class="visit-check w-5 h-5 accent-primary rounded">
+            <span class="text-sm text-ink">Catat poin yang perlu dikonfirmasi</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= DIALOG RUANG CERITA ================= -->
+    <div id="modalStoryRoom" role="dialog" aria-modal="true" aria-labelledby="storyRoomTitle" class="fixed inset-0 bg-ink/40 z-50 flex items-end sm:items-center justify-center hidden">
+      <div class="bg-surface w-full max-w-[430px] rounded-t-xl sm:rounded-xl border border-divider p-5 space-y-4">
+        <div class="flex items-center justify-between border-b border-divider pb-3">
+          <div>
+            <h2 id="storyRoomTitle" class="text-lg font-semibold text-ink">Ruang Cerita</h2>
+            <p class="text-xs text-muted">Pendampingan pengasuh</p>
+          </div>
+          <button type="button" id="btnCloseStoryRoom" class="min-h-11 px-3 text-sm font-semibold text-muted hover:text-ink rounded-lg">Tutup</button>
+        </div>
+        <div class="grid grid-cols-3 gap-2 text-xs">
+          <button type="button" class="story-topic-btn min-h-11 px-2 rounded-lg border border-primary bg-soft text-primary font-semibold" data-topic="berat">Hari terasa berat</button>
+          <button type="button" class="story-topic-btn min-h-11 px-2 rounded-lg border border-divider bg-surface text-muted font-semibold" data-topic="capek">Aku capek</button>
+          <button type="button" class="story-topic-btn min-h-11 px-2 rounded-lg border border-divider bg-surface text-muted font-semibold" data-topic="bantuan">Butuh bantuan</button>
+        </div>
+        <div class="border border-divider rounded-lg p-4 space-y-2.5 text-sm">
+          <div class="font-semibold text-ink" id="storyTopicHeading">Hari ini terasa berat</div>
+          <p class="text-muted" id="storyQ1">Bagian mana dari hari ini yang paling berat bagimu?</p>
+          <p class="text-muted" id="storyQ2">Siapa yang bisa kamu mintai bantuan untuk hal kecil besok?</p>
+        </div>
+        <p class="text-xs text-muted">Catatan di sesi ini bersifat pribadi dan tidak dikirim ke server.</p>
+      </div>
+    </div>
+
+    <!-- ================= DIALOG TENTANG & SUMBER ================= -->
+    <div id="modalAbout" role="dialog" aria-modal="true" aria-labelledby="aboutTitle" class="fixed inset-0 bg-ink/40 z-50 flex items-end sm:items-center justify-center hidden">
+      <div class="bg-surface w-full max-w-[430px] rounded-t-xl sm:rounded-xl border border-divider p-5 space-y-4">
+        <div class="flex items-center justify-between border-b border-divider pb-3">
+          <h2 id="aboutTitle" class="text-lg font-semibold text-ink">Tentang &amp; sumber</h2>
+          <button type="button" id="btnCloseAbout" class="min-h-11 px-3 text-sm font-semibold text-muted hover:text-ink rounded-lg">Tutup</button>
+        </div>
+        <div class="space-y-2 text-sm text-muted">
+          <p class="text-ink font-semibold">Untuk perawat dan bidan Posyandu</p>
+          <p>Grafik Denver II memakai pemetaan sebagian. Rekap Denver II menggunakan temuan dari lembar resmi.</p>
+          <p class="text-ink font-semibold">Rujukan pemeriksaan dan pelayanan</p>
+          <ul class="space-y-1.5 list-disc pl-5">
+            <li><a class="text-primary underline" href="https://www.scribd.com/document/789299349/DENVER-II-di-ch" rel="noopener noreferrer">Denver II Training Manual · prosedur dan interpretasi rekap</a></li>
+            <li>Kuesioner dan ilustrasi KPSP dari DigiCare 1.0.0</li>
+            <li><a class="text-primary underline" href="https://repositori-ditjen-nakes.kemkes.go.id/441/1/modul_21010607295920a21e9be701b86777d9e602774b2188_.pdf" rel="noopener noreferrer">Modul Kemenkes untuk butir KPSP 3 bulan</a></li>
+            <li>Buku KIA edisi 2024, Kementerian Kesehatan RI</li>
+            <li>Petunjuk Teknis Pemantauan Praktik MP-ASI Usia 6–23 Bulan, Kemenkes</li>
+            <li><a class="text-primary underline" href="https://jdih.kemkes.go.id/storage/documents/pdfs/2024kepmenkes1098.pdf#page=5" rel="noopener noreferrer">Kepmenkes 1098/2024 · Jadwal Imunisasi Program</a> dan <a class="text-primary underline" href="https://jdih.kemkes.go.id/documents/keputusan-menteri-kesehatan-nomor-hk0107menkes352025" rel="noopener noreferrer">perubahannya, Kepmenkes 35/2025</a>.</li>
+            <li><a class="text-primary underline" href="https://jdih.kemkes.go.id/documents/keputusan-menteri-kesehatan-nomor-hk0107menkes9322025" rel="noopener noreferrer">Kepmenkes 932/2025 · Program heksavalen</a>.</li>
+          </ul>
+        </div>
+        <div class="pt-3 border-t border-divider space-y-2">
+          <button id="btnImportVisits" type="button" class="guide-secondary w-full mb-2">Impor riwayat HTML</button>
+          <button type="button" id="btnRequestResetSession" class="w-full min-h-11 border border-danger text-danger hover:bg-soft font-semibold text-sm rounded-lg px-4 py-2 transition-colors">
+            Hapus data lokal
+          </button>
+          <div id="confirmResetBox" class="hidden bg-paper border border-divider rounded-lg p-3 space-y-2">
+            <p class="text-xs text-ink">Hapus semua profil, hasil ukur, catatan kunjungan, dan ringkasan serah terima di perangkat ini?</p>
+            <div class="flex gap-2">
+              <button type="button" id="btnConfirmReset" class="flex-1 min-h-11 bg-danger text-white text-sm font-semibold rounded-lg">Ya, hapus</button>
+              <button type="button" id="btnCancelReset" class="flex-1 min-h-11 border border-divider bg-surface text-ink text-sm font-semibold rounded-lg">Batal</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="clinical-data.js"></script>
+
+  
+
+  <script src="domain.js"></script>
+  <script src="native-store.js"></script>
+  <script src="app.js"></script>
+
+
+</body></html>

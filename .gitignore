@@ -1,0 +1,15 @@
+/.gradle/
+/.kotlin/
+/.idea/
+**/build/
+local.properties
+*.iml
+*.apk
+*.aab
+*.jks
+*.keystore
+*.db
+*.db-*
+*.sqlite*
+*.zip
+buku-saku-riwayat-*.json

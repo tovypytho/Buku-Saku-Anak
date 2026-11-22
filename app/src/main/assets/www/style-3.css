@@ -1,0 +1,27 @@
+    .denver-item-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) max-content;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .denver-item-row > div { min-width: 0; overflow-wrap: anywhere; }
+    .denver-item-row > button {
+      justify-self: end;
+      text-align: right;
+      white-space: nowrap;
+    }
+    @media (max-width: 350px) {
+      .denver-item-row > button { padding-inline: 0.25rem; }
+    }
+    .routine-form {
+      display: grid;
+      grid-template-columns: minmax(0, 7rem) minmax(0, 1fr) max-content;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .routine-form > input { box-sizing: border-box; min-width: 0; width: 100%; }
+    .routine-form > button { justify-self: end; max-width: 100%; }
+    @media (max-width: 380px) {
+      .routine-form { grid-template-columns: minmax(0, 6.5rem) minmax(0, 1fr); }
+      .routine-form > button { grid-column: 1 / -1; }
+    }
